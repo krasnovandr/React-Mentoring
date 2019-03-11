@@ -62,3 +62,5 @@ typings/
 
 # Ignore VS code files
 .vs/
+
+dist

@@ -1,4 +1,5 @@
 import React from "react";
+import { hot } from 'react-hot-loader'
 import "./App.css";
 import { PureComponent } from "./components/PureComponent";
 import { CreateElementComponent } from "./components/CreateElementComponent";
@@ -19,4 +20,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default hot(module)(App)
