@@ -19,17 +19,6 @@ module.exports = {
   resolve: { extensions: ["*", ".js", ".jsx"] },
   output: {
     path: path.resolve(__dirname, "dist/"),
-    //  publicPath: "/dist/",
     filename: "bundle.js"
   }
-
-  // plugins: [
-  //   new webpack.HotModuleReplacementPlugin(),
-  //   new HtmlWebpackPlugin({
-  //     template: "./public/index.html",
-  //     filename: "./index.html",
-  //     hash: true,
-  //     title: 'React Mentoring App',
-  //   })
-  // ]
 };
