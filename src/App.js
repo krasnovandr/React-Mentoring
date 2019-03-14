@@ -1,23 +1,16 @@
 import React from "react";
-import { hot } from 'react-hot-loader'
+import { hot } from "react-hot-loader";
 import "./App.css";
-import { PureComponent } from "./components/PureComponent";
-import { CreateElementComponent } from "./components/CreateElementComponent";
-import { DefaultComponent } from "./components/DefaultComponent";
-import { FunctionalComponent } from "./components/FunctionalComponent";
+import { Films } from "./pages/films";
 
 class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <h1>Hello World</h1>
-        <DefaultComponent name="Andrei" />
-        <CreateElementComponent />
-        <FunctionalComponent name="Andrei" />
-        <PureComponent name="Andrei" />
+        <Films />
       </div>
     );
   }
 }
 
-export default hot(module)(App)
+export default hot(module)(App);
