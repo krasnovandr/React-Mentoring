@@ -17,126 +17,82 @@ import Typography from "@material-ui/core/Typography";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
 
-
+import Paper from "@material-ui/core/Paper";
+import Grid from "@material-ui/core/Grid";
+import { grey } from "@material-ui/core/colors";
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    // overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
+    flexGrow: 1,
+    marginTop: 20,
+    backgroundColor: grey
   },
-  gridList: {
-    width: 500,
-    height: 450,
-    overflowY: "auto"
-  },
-  icon: {
-    color: "rgba(255, 255, 255, 0.54)"
-  },
-  // card: {
-  //   minWidth: 275,
-  //   maxWidth: 345
-  // },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)"
-  },
-  title: {
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  },
-
   media: {
-    height: 0,
+    // height: 0,
     paddingTop: "56.25%", // 16:9,
     marginTop: "30"
+    // height: 0,
+    // paddingTop: "56.25%", // 16:9,
+    // marginTop: "30"
   },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
+  card: {
+    // display: 'block',
+    // width: 30,
+    // // transitionDuration: '0.3s',
+    // height: 45
   },
-  selectEmpty: {
-    marginTop: theme.spacing.unit * 2,
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: "center",
+    color: theme.palette.text.secondary
   },
+  img: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%"
+  }
 });
 
 function FilmsList(props) {
   const filmsItems = props.items;
+
   const { classes } = props;
   if (!filmsItems.data || filmsItems.data.length === 0) {
     return <div>No Films Found</div>;
   } else {
     return (
-      <div >
-        {/* <ul>
+      <div className={classes.root}>
+        <Grid container spacing={24}>
           {filmsItems.data.map(film => (
-            <FilmDetails key={film.id} value={film} />
-          ))}
-        </ul> */}
-        {/* <img src={filmData.poster_path} />
-      <div>{filmData.title}</div>
-      <div> {filmData.release_date}</div>
-      <div> {filmData.overview}</div> */}
-        {/* <h1>Footer</h1> */}
-        <GridList cellHeight={"auto"} cols={3} >
-          <GridListTile key="Subheader" cols={3} >
-            <ListSubheader component="div">
-            
-            </ListSubheader>
-          </GridListTile>
-          {filmsItems.data.map(film => (
-            <GridListTile key={film.id}>
-              <Card>
-                <CardActionArea>
-                  <CardMedia
-                    className={classes.media}
-                    image={film.poster_path}
-                    title="Contemplative Reptile"
+            <Grid item md={4} key={film.id}>
+              <Paper className={classes.paper}>
+                <Grid item xs>
+                  <img
+                    className={classes.img}
+                    alt="complex"
+                    src={film.poster_path}
                   />
-                  <CardContent>
-                    {/* <img src={film.poster_path} alt={film.title} /> */}
-
-                    {/* <Typography
-                    className={classes.title}
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Word of the Day
+                </Grid>
+                <Grid item xs>
+                  <Typography component="p" variant="subtitle1">
+                    {film.title}
                   </Typography>
-                  <Typography variant="h5" component="h2">
-                    be
-                    {bull}
-                    nev
-                    {bull}o{bull}
-                    lent
+                  <Typography component="p" variant="subtitle2">
+                    {film.release_date}
                   </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                    adjective
+                  <Typography component="p" variant="subtitle2">
+                    {film.vote_average}
                   </Typography>
-                 */}
-                    <Typography component="h2">{film.title}</Typography>
-                    <Typography component="p">{film.release_date}</Typography>
-                    <Typography component="p">{film.genre}</Typography>
-                  </CardContent>
-                </CardActionArea>
-                <CardActions>
-                  <Button size="small">Learn More</Button>
-                </CardActions>
-              </Card>
-
-              {/* <GridListTileBar
-                title={film.title}
-             
-                subtitle={<span>: {film.overview}</span>}
-              /> */}
-            </GridListTile>
+                  
+                  {film.genres.map(genre => {
+                    return <span key={genre}>{genre} </span>;
+                  })}
+                </Grid>
+              </Paper>
+            </Grid>
           ))}
-        </GridList>
+        </Grid>
       </div>
     );
   }

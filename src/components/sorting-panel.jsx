@@ -5,25 +5,12 @@ import Select from "@material-ui/core/Select";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { withStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
-// id: 399055,
-// title: "The Shape of Water",
-// tagline: "A Fairy Tale for Troubled Times",
-// vote_average: 7.3,
-// vote_count: 3200,
-// release_date: "2017-12-01",
-// poster_path:
-//   "https://image.tmdb.org/t/p/w500/k4FwHlMhuRR5BISY2Gm2QZHlH5Q.jpg",
-// overview:
-//   "An other-worldly story, set against the backdrop of Cold War era America circa 1962, where a mute janitor working at a lab falls in love with an amphibious man being held captive there and devises a plan to help him escape.",
-// budget: 19500000,
-// revenue: 185545281,
-// genres: ["Drama", "Fantasy", "Romance"],
-// runtime: 123
+import PropTypes from "prop-types";
+import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap"
+    flexGrow: 1,
   },
   formControl: {
     margin: theme.spacing.unit,
@@ -31,18 +18,24 @@ const styles = theme => ({
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
-  }
+  },
+  item: {
+    textAlign: 'center',
+  },
 });
 
-export class SortingPanel extends React.Component {
+class SortingPanel extends React.Component {
   constructor(props) {
     super(props);
-    const { classes } = props;
     this.state = { orderBy: "", order: "" };
   }
+
+  // componentDidUpdate() {
+  //   const films = this.props.filmsItems;
+  // }
   handleChangeSortingBy = e => {
     this.setState({ [event.target.name]: event.target.value });
-    this.props.onOrderChanged(e.target.value);
+    this.props.onOrderByChanged(e.target.value);
   };
 
   handleChangeSortingOrder = e => {
@@ -50,48 +43,74 @@ export class SortingPanel extends React.Component {
     this.props.onOrderChanged(e.target.value);
   };
   render() {
+    const { classes } = this.props;
+    const films = this.props.filmsItems;
+    let averageFilmsRating = 0;
+    if (films.data) {
+      const ratings = films.data.map(film => film.vote_average);
+      averageFilmsRating = (ratings.reduce((a, b) => a + b) / films.data.length).toFixed(2);
+      debugger;
+    }
     return (
       <div>
-        {/* <span>{(this.props.filmsItems  && this.props.filmsItems.data) ? 0: this.props.filmsItems.data.length } Movies Found</span> */}
-        {/* <FormControl>
-          <InputLabel htmlFor="sort-by">Sort By</InputLabel>
-        </FormControl> */}
+        <Grid container spacing={16} className={classes.root} direction="row" justify="space-between" >
+          <Grid item md={4} className={classes.item}>
+            <FormControl >
+              {(films && films.data)
+                &&
+                <div>
+                  <div>Movies Found {films.data.length} </div>
+                  <div>Average Rating  {averageFilmsRating}</div>
+                </div>
+              }
+            </FormControl>
 
-        <FormControl>
-          {/* <InputLabel htmlFor="sort-by">Sort By</InputLabel> */}
-          <Select
-            native
-            value={this.state.orderBy}
-            onChange={this.handleChangeSortingBy}
-            inputProps={{
-              // name: "orderBy",
-              id: "sort-by"
-            }}
-          >
-            {/* <option value="" /> */}
-            <option value="release_date">Release Date</option>
-            <option value="title">Title</option>
-            <option value="vote_average">Vote Average</option>
-          </Select>
-        </FormControl>
-        <FormControl>
-          {/* <InputLabel htmlFor="order-id">Sort Order</InputLabel> */}
-          <Select
-            native
-            value={this.state.order}
-            onChange={this.handleChangeSortingOrder}
-            inputProps={{
-              name: "asc",
-              id: "order-id"
-            }}
-          >
-            <option value="asc">Asc</option>
-            <option value="desc">Desc</option>
-          </Select>
-        </FormControl>
+          </Grid>
+          <Grid item md={4} className={classes.item}>
+            <FormControl>
+              <Select
+                native
+                value={this.state.orderBy}
+                onChange={this.handleChangeSortingBy}
+                inputProps={{
+                  name: "orderBy",
+                  id: "sort-by"
+                }}
+              >
+                {/* <option value="" /> */}
+                <option value="release_date">Release Date</option>
+                <option value="title">Title</option>
+                <option value="vote_average">Vote Average</option>
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item md={4} className={classes.item}>
+            <FormControl>
+              {/* <InputLabel htmlFor="order-id">Sort Order</InputLabel> */}
+              <Select
+                native
+                value={this.state.order}
+                onChange={this.handleChangeSortingOrder}
+                inputProps={{
+                  name: "order",
+                  id: "order-id"
+                }}
+              >
+                <option value="asc">Asc</option>
+                <option value="desc">Desc</option>
+              </Select>
+            </FormControl>
+          </Grid>
+        </Grid>
+
+
       </div>
     );
   }
 }
+
+// SortingPanel.propTypes = {
+//   classes: PropTypes.object.isRequired
+// };
 
 export default withStyles(styles)(SortingPanel);

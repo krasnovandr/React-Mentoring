@@ -1,8 +1,9 @@
 import React from "react";
 import FilmsList from "../components/films-list";
 import { FilsmService } from "../films-service";
-import { SearchToolbox } from "../components/search-toolbox";
-import { SortingPanel } from "../components/sorting-panel";
+import SearchToolbox from "../components/search-toolbox";
+import SortingPanel from "../components/sorting-panel";
+
 
 const testData = {
   data: [
