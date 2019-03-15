@@ -1,6 +1,6 @@
 import React from "react";
-import FilmsList from "../components/films-list";
-import { FilsmService } from "../films-service";
+import MoviesList from "../components/movies-list";
+import { MovieService } from "../movie-service";
 import SearchToolbox from "../components/search-toolbox";
 import SortingPanel from "../components/sorting-panel";
 
@@ -173,21 +173,21 @@ const testData = {
   limit: 10
 };
 
-export class Films extends React.Component {
+export class Movies extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      filmsList: [],
+      moviesList: [],
       searchBy: "title",
       query: "",
       orderBy: "release_date",
       order: "asc"
     };
-    this.filmsService = new FilsmService();
+    this.movieService = new MovieService();
   }
 
   componentDidMount() {
-    this.updateFilmsList(
+    this.updateMoviesList(
       this.state.searchBy,
       this.state.query,
       this.state.orderBy,
@@ -196,7 +196,7 @@ export class Films extends React.Component {
   }
   handleSearchTriggered = e => {
     this.setState({ query: e.query, searchBy: e.searchBy });
-    this.updateFilmsList(
+    this.updateMoviesList(
       e.searchBy,
       e.query,
       this.state.orderBy,
@@ -206,7 +206,7 @@ export class Films extends React.Component {
 
   handleChangeSortingBy = orderBy => {
     this.setState({ orderBy: orderBy });
-    this.updateFilmsList(
+    this.updateMoviesList(
       this.state.searchBy,
       this.state.query,
       orderBy,
@@ -216,7 +216,7 @@ export class Films extends React.Component {
 
   handleChangeSortingOrder = order => {
     this.setState({ order: order });
-    this.updateFilmsList(
+    this.updateMoviesList(
       this.state.searchBy,
       this.state.query,
       this.state.orderBy,
@@ -224,9 +224,9 @@ export class Films extends React.Component {
     );
   };
 
-  updateFilmsList(searchBy, query, orderby, order) {
-    this.filmsService.getFilms(searchBy, query, orderby, order).then(data => {
-      return this.setState({ filmsList: data });
+  updateMoviesList(searchBy, query, orderby, order) {
+    this.movieService.searchMovie(searchBy, query, orderby, order).then(data => {
+      return this.setState({ moviesList: data });
     });
   }
 
@@ -238,11 +238,11 @@ export class Films extends React.Component {
           onSearchTriggered={this.handleSearchTriggered}
         />
         <SortingPanel
-          filmsItems={this.state.filmsList}
+          moviesList={this.state.moviesList}
           onOrderByChanged={this.handleChangeSortingBy}
           onOrderChanged={this.handleChangeSortingOrder}
         />
-        <FilmsList items={this.state.filmsList} />
+        <MoviesList items={this.state.moviesList} />
       </div>
     );
   }

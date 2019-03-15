@@ -1,17 +1,27 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import "./App.css";
-import { Films } from "./pages/films";
-import Header from "./shared-components/header.js";
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <Header></Header>
-        <Films />
-      </div>
-    );
-  }
+import { Movies } from "./pages/movies";
+import { MovieDescription } from "./pages/movie-description";
+import Header from "./shared-components/header";
+import {
+  NavLink,
+  Route,
+  Redirect,
+  Switch,
+  BrowserRouter as Router,
+} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+
+function App({ match }) {
+  // const match = this.props.match.path;
+  return (
+    <div className="App">
+      <Header></Header>
+      <Route path="/" exact component={Movies} />
+      <Route path="/films/:id" component={MovieDescription} />
+    </div>
+  );
 }
 
-export default hot(module)(App);
+export default withRouter(hot(module)(App));

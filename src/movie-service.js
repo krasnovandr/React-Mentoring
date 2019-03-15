@@ -1,9 +1,9 @@
-export class FilsmService {
+export class MovieService {
   constructor() {
-    this.baseUrl = "http://react-cdp-api.herokuapp.com/movies?";
+    this.baseUrl = "http://react-cdp-api.herokuapp.com/movies";
   }
 
-  getFilms(
+  searchMovie(
     searchBy,
     search,
     sortBy = "",
@@ -12,6 +12,7 @@ export class FilsmService {
     limit = 20
   ) {
     let buildedUrl = this.baseUrl;
+    buildedUrl += "?"
     if (searchBy) {
       buildedUrl += `&searchBy=${searchBy}`;
     }
@@ -24,7 +25,6 @@ export class FilsmService {
         buildedUrl += `&sortOrder=${order}`;
       }
     }
-
     if (offset) {
       buildedUrl += `&offset=${offset}`;
     }
@@ -32,6 +32,11 @@ export class FilsmService {
       buildedUrl += `&limit=${limit}`;
     }
 
+    return fetch(buildedUrl).then(response => response.json());
+  }
+
+  getMovie(id) {
+    let buildedUrl = `${this.baseUrl}/${id}`;
     return fetch(buildedUrl).then(response => response.json());
   }
 }

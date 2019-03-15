@@ -44,28 +44,28 @@ class SortingPanel extends React.Component {
   };
   render() {
     const { classes } = this.props;
-    const films = this.props.filmsItems;
-    let averageFilmsRating = 0;
-    if (films.data) {
-      const ratings = films.data.map(film => film.vote_average);
-      averageFilmsRating = (ratings.reduce((a, b) => a + b) / films.data.length).toFixed(2);
-      debugger;
+    const movies = this.props.moviesList;
+    let averageMovieRating = 0;
+    if (movies.data && movies.data.length > 0) {
+      const ratings = movies.data.map(movie => movie.vote_average);
+      averageMovieRating = (ratings.reduce((a, b) => a + b) / movies.data.length).toFixed(2);
     }
     return (
       <div>
         <Grid container spacing={16} className={classes.root} direction="row" justify="space-between" >
-          <Grid item md={4} className={classes.item}>
-            <FormControl >
-              {(films && films.data)
-                &&
-                <div>
-                  <div>Movies Found {films.data.length} </div>
-                  <div>Average Rating  {averageFilmsRating}</div>
-                </div>
-              }
-            </FormControl>
 
-          </Grid>
+          {(movies && movies.data && averageMovieRating > 0)
+            &&
+            <Grid item md={4} className={classes.item}>
+              <FormControl >
+                <div>
+                  <div>Movies Found {movies.data.length} </div>
+                  <div>Average Rating  {averageMovieRating}</div>
+                </div>
+              </FormControl>
+            </Grid>
+          }
+
           <Grid item md={4} className={classes.item}>
             <FormControl>
               <Select
