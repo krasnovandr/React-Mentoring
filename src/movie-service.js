@@ -9,7 +9,7 @@ export class MovieService {
     sortBy = "",
     order = "",
     offset = 0,
-    limit = 20
+    limit = 18
   ) {
     let buildedUrl = this.baseUrl;
     buildedUrl += "?"

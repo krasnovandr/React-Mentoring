@@ -1,11 +1,7 @@
 import React from "react";
-
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
 import { withStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import PropTypes from "prop-types";
 import Grid from "@material-ui/core/Grid";
 
 const styles = theme => ({
@@ -30,9 +26,6 @@ class SortingPanel extends React.Component {
     this.state = { orderBy: "", order: "" };
   }
 
-  // componentDidUpdate() {
-  //   const films = this.props.filmsItems;
-  // }
   handleChangeSortingBy = e => {
     this.setState({ [event.target.name]: event.target.value });
     this.props.onOrderByChanged(e.target.value);
@@ -102,15 +95,9 @@ class SortingPanel extends React.Component {
             </FormControl>
           </Grid>
         </Grid>
-
-
       </div>
     );
   }
 }
-
-// SortingPanel.propTypes = {
-//   classes: PropTypes.object.isRequired
-// };
 
 export default withStyles(styles)(SortingPanel);

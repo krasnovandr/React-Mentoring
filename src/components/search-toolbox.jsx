@@ -6,33 +6,21 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import RadioGroup from "@material-ui/core/RadioGroup";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormControl from "@material-ui/core/FormControl";
 import FormLabel from "@material-ui/core/FormLabel";
-import logo from "../../public/background.png";
 const styles = theme => ({
   root: {
-    // display: "flex",
     minHeight: "30px",
     margin: "20px",
     padding: "20px",
     border: "1px solid grey",
-    // backgroundImage: `url(${logo})`,
-    // backgroundColor: 'transparent',
-    // color: "white"
-    // color: green,
-    // background: 'white',
-    // border: "3px",
-    // borderRadius: 3,
-    // boxShadow: "2px 2px 2px 2px"
   },
   formControl: {
     margin: theme.spacing.unit * 3
   },
   group: {
     margin: `${theme.spacing.unit}px 0`,
-    flexDirection: "row" 
+    flexDirection: "row"
   },
   radio: {
     color: green[600],
@@ -44,8 +32,11 @@ const styles = theme => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    width: 200,
-    color: "255 255 255"
+    width: "100%",
+  },
+  search: {
+    textAlign: "right",
+    alignContent: "flex-end"
   }
 });
 
@@ -71,8 +62,8 @@ class SearchToolbox extends React.Component {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Grid container spacing={24}>
-          <Grid item xs={6}>
+        <Grid container spacing={24} alignItems="center" >
+          <Grid item xs={12} >
             <TextField
               id="standard-name"
               label="Search"
@@ -82,8 +73,10 @@ class SearchToolbox extends React.Component {
               margin="normal"
             />
           </Grid>
-          <Grid item xs={6}>
-            <FormLabel component="legend">Search By</FormLabel>
+          <Grid item xs={2}>
+            <FormLabel >Search By</FormLabel>
+          </Grid>
+          <Grid item xs={4} >
             <RadioGroup
               aria-label="Gender"
               name="gender1"
@@ -93,19 +86,17 @@ class SearchToolbox extends React.Component {
             >
               <FormControlLabel
                 value="title"
-                className={classes.textField}
                 control={<Radio />}
                 label="Title"
               />
               <FormControlLabel
                 value="genres"
-                className={classes.textField}
                 control={<Radio />}
                 label="Genre"
               />
             </RadioGroup>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={6} className={classes.search}>
             <Button
               variant="contained"
               color="primary"
@@ -119,9 +110,5 @@ class SearchToolbox extends React.Component {
     );
   }
 }
-
-// TextFields.propTypes = {
-//   classes: PropTypes.object.isRequired,
-// };
 
 export default withStyles(styles)(SearchToolbox);

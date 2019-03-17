@@ -4,49 +4,62 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
+import ButtonBase from '@material-ui/core/ButtonBase';
+
 const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
-    textAlign: "center",
     color: theme.palette.text.secondary,
   },
+  image: {
+    width: 170,
+    height: 200,
+  },
   img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "400px"
-  }
+    margin: 'auto',
+    display: 'block',
+    maxWidth: '100%',
+    maxHeight: '100%',
+  },
 });
 
 function MovieDetails(props) {
   const movie = props.movie;
   const { classes } = props;
   return (
-    // <Paper className={classes.paper}>
-    //   <Grid item xs>
-    //     <img
-    //       className={classes.img}
-    //       alt="complex"
-    //       src={film.poster_path}
-    //     />
-    //   </Grid>
-    //   <Grid item xs>
-    //     <Typography component="p" variant="subtitle1">
-    //       {film.title}
-    //     </Typography>
-    //     <Typography component="p" variant="subtitle2">
-    //       {film.release_date}
-    //     </Typography>
-    //     <Typography component="p" variant="subtitle2">
-    //       {film.vote_average}
-    //     </Typography>
-
-    //     {film.genres.map(genre => {
-    //       return <span key={genre}>{genre} </span>;
-    //     })}
-    //   </Grid>
-    //   <Link to={`/films/${film.id}`}>Details</Link>
-    // </Paper>
+    <Paper className={classes.paper}>
+      <Grid container spacing={16}>
+        <Grid item>
+          <ButtonBase className={classes.image}>
+            <img className={classes.img} alt="complex" src={movie.poster_path} />
+          </ButtonBase>
+        </Grid>
+        <Grid item xs={12} sm container>
+          <Grid item xs container direction="row" spacing={16}>
+            <Grid item xs>
+              <Typography gutterBottom variant="h4" color="primary">
+                {movie.title}
+              </Typography>
+              <Grid item container>
+                <Grid item xs>
+                  <Typography color="textSecondary" color="primary" gutterBottom>  {movie.runtime} min</Typography>
+                </Grid>
+                <Grid item xs>
+                  <Typography align="center" color="primary" gutterBottom>  {new Date(movie.release_date).getFullYear()}</Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs >
+                <Typography variant="body1" gutterBottom>{movie.overview}</Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Link to={`/search`}>Search</Link>
+            <Typography variant="subtitle1">{movie.vote_average}</Typography>
+          </Grid>
+        </Grid>
+      </Grid>
+    </Paper>
   );
 }
 

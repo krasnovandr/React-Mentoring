@@ -1,7 +1,6 @@
 import React from "react";
 import MovieListDetails from "./movie-list-details";
 import { withStyles } from "@material-ui/core/styles";
-import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import { grey } from "@material-ui/core/colors";
 

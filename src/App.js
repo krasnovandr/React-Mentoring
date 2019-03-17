@@ -5,21 +5,17 @@ import { Movies } from "./pages/movies";
 import { MovieDescription } from "./pages/movie-description";
 import Header from "./shared-components/header";
 import {
-  NavLink,
-  Route,
-  Redirect,
-  Switch,
-  BrowserRouter as Router,
+  Route
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 function App({ match }) {
-  // const match = this.props.match.path;
   return (
     <div className="App">
       <Header></Header>
       <Route path="/" exact component={Movies} />
-      <Route path="/films/:id" component={MovieDescription} />
+      <Route path="/search" exact component={Movies} />
+      <Route path="/movies/:id" component={MovieDescription} />
     </div>
   );
 }

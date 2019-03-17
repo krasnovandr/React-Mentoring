@@ -1,5 +1,6 @@
 import React from "react";
-import MovieList from "../components/movies-list";
+import MoviesList from "../components/movies-list";
+import MovieDetails from "../components/movie-details";
 import { MovieService } from "../movie-service";
 
 
@@ -8,35 +9,28 @@ export class MovieDescription extends React.Component {
         super(props);
 
         this.state = {
-            film: {},
+            currentMovie: {},
+            similarGenreFilms: []
         };
         this.movieService = new MovieService();
-        //   this.state = {
-        //     filmsList: [],
-        //     searchBy: "title",
-        //     query: "",
-        //     orderBy: "release_date",
-        //     order: "asc"
-        //   };
-        //   
     }
 
     componentDidMount() {
         this.movieService.getMovie(this.props.match.params.id)
-            .then(data => {
-                return this.setState({ film: data })
-            });
-
-        this.movieService.searchMovie(this.props.match.params.id)
-            .then(data => {
-                return this.setState({ film: data })
+            .then(movie => {
+                this.setState({ currentMovie: movie })
+                this.movieService.searchMovie('genres', movie.genres[0])
+                    .then(similarMovies => {
+                        return this.setState({ similarGenreFilms: similarMovies })
+                    });
             });
     }
 
     render() {
         return (
             <div>
-                {this.state.film.title}
+                <MovieDetails movie={this.state.currentMovie}></MovieDetails>
+                <MoviesList items={this.state.similarGenreFilms} />
             </div>
         );
     }
