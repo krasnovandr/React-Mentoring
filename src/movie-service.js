@@ -1,3 +1,4 @@
+import queryString from "query-string"
 export class MovieService {
   constructor() {
     this.baseUrl = "http://react-cdp-api.herokuapp.com/movies";
@@ -6,31 +7,16 @@ export class MovieService {
   searchMovie(
     searchBy,
     search,
-    sortBy = "",
-    order = "",
+    sortBy,
+    sortOrder,
     offset = 0,
     limit = 18
   ) {
-    let buildedUrl = this.baseUrl;
-    buildedUrl += "?"
-    if (searchBy) {
-      buildedUrl += `&searchBy=${searchBy}`;
-    }
-    if (search) {
-      buildedUrl += `&search=${search}`;
-    }
-    if (sortBy) {
-      buildedUrl += `&sortBy=${sortBy}`;
-      if (order) {
-        buildedUrl += `&sortOrder=${order}`;
-      }
-    }
-    if (offset) {
-      buildedUrl += `&offset=${offset}`;
-    }
-    if (limit) {
-      buildedUrl += `&limit=${limit}`;
-    }
+
+    let params = { searchBy, search, sortBy, sortOrder, offset, limit }
+   
+    let queryParams = queryString.stringify(params);
+    let buildedUrl = `${this.baseUrl}?${queryParams}`;
 
     return fetch(buildedUrl).then(response => response.json());
   }

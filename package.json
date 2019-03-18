@@ -25,6 +25,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "express": "^4.16.4",
+    "query-string": "^6.4.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-redux": "^6.0.1",

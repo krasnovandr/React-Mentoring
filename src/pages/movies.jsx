@@ -64,10 +64,7 @@ export class Movies extends React.Component {
   render() {
     return (
       <div>
-        <SearchToolbox
-          searchBy={this.state.searchBy}
-          onSearchTriggered={this.handleSearchTriggered}
-        />
+        <SearchToolbox onSearchTriggered={this.handleSearchTriggered} />
         <SortingPanel
           moviesList={this.state.moviesList}
           onOrderByChanged={this.handleChangeSortingBy}
