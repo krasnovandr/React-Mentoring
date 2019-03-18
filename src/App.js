@@ -9,9 +9,11 @@ import {
 } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
-function App({ match }) {
+function App() {
   return (
+
     <div className="App">
+
       <Header></Header>
       <Route path="/" exact component={Movies} />
       <Route path="/search" exact component={Movies} />

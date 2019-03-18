@@ -3,8 +3,10 @@ import MoviesList from "../components/movies-list";
 import { MovieService } from "../movie-service";
 import SearchToolbox from "../components/search-toolbox";
 import SortingPanel from "../components/sorting-panel";
+import { ErrorMessage } from "../shared-components/error-message";
 
 export class Movies extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -12,7 +14,8 @@ export class Movies extends React.Component {
       searchBy: "title",
       query: "",
       orderBy: "release_date",
-      order: "asc"
+      order: "asc",
+      error: null
     };
     this.movieService = new MovieService();
   }
@@ -25,6 +28,7 @@ export class Movies extends React.Component {
       this.state.order
     );
   }
+
   handleSearchTriggered = e => {
     this.setState({ query: e.query, searchBy: e.searchBy });
     this.updateMoviesList(
@@ -56,12 +60,16 @@ export class Movies extends React.Component {
   };
 
   updateMoviesList(searchBy, query, orderby, order) {
-    this.movieService.searchMovie(searchBy, query, orderby, order).then(data => {
-      return this.setState({ moviesList: data });
-    });
+    this.movieService.searchMovie(searchBy, query, orderby, order)
+      .then(data => this.setState({ moviesList: data }))
+      .catch(error => this.setState({ error }));
   }
 
   render() {
+    if (this.state.error) {
+      return <ErrorMessage></ErrorMessage>;
+    }
+
     return (
       <div>
         <SearchToolbox onSearchTriggered={this.handleSearchTriggered} />

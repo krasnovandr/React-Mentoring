@@ -14,11 +14,13 @@ export class MovieService {
   ) {
 
     let params = { searchBy, search, sortBy, sortOrder, offset, limit }
-   
+
     let queryParams = queryString.stringify(params);
     let buildedUrl = `${this.baseUrl}?${queryParams}`;
 
-    return fetch(buildedUrl).then(response => response.json());
+    return fetch(buildedUrl)
+      .then(response => response.json())
+
   }
 
   getMovie(id) {
