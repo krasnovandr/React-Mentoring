@@ -21,10 +21,7 @@ const styles = theme => ({
 });
 
 class SortingPanel extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { orderBy: "", order: "" };
-  }
+  state = { orderBy: "", order: "" };
 
   handleChangeSortingBy = e => {
     this.setState({ [event.target.name]: event.target.value });
@@ -70,7 +67,6 @@ class SortingPanel extends React.Component {
                   id: "sort-by"
                 }}
               >
-                {/* <option value="" /> */}
                 <option value="release_date">Release Date</option>
                 <option value="title">Title</option>
                 <option value="vote_average">Vote Average</option>
@@ -79,7 +75,6 @@ class SortingPanel extends React.Component {
           </Grid>
           <Grid item md={4} className={classes.item}>
             <FormControl>
-              {/* <InputLabel htmlFor="order-id">Sort Order</InputLabel> */}
               <Select
                 native
                 value={this.state.order}
