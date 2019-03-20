@@ -4,6 +4,13 @@ export class MovieService {
     this.baseUrl = "http://react-cdp-api.herokuapp.com/movies";
   }
 
+  handleErrors(response) {
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`)
+    }
+    return response;
+  }
+
   searchMovie(
     searchBy,
     search,
@@ -19,12 +26,14 @@ export class MovieService {
     let buildedUrl = `${this.baseUrl}?${queryParams}`;
 
     return fetch(buildedUrl)
+      .then(response => this.handleErrors(response))
       .then(response => response.json())
-
   }
 
   getMovie(id) {
     let buildedUrl = `${this.baseUrl}/${id}`;
-    return fetch(buildedUrl).then(response => response.json());
+    return fetch(buildedUrl)
+      .then(response => this.handleErrors(response))
+      .then(response => response.json())
   }
 }
