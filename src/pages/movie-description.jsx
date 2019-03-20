@@ -1,42 +1,38 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import useReactRouter from 'use-react-router';
 import MoviesList from "../components/movies-list";
 import MovieDetails from "../components/movie-details";
 import { MovieService } from "../movie-service";
 import { ErrorMessage } from "../shared-components/error-message";
 
 
-export class MovieDescription extends React.Component {
-    constructor(props) {
-        super(props);
+export function MovieDescription(props) {
+    const movieService = new MovieService();
+    const [error, setError] = useState(null);
+    const [similarGenreFilms, setsimilarGenreFilms] = useState([]);
+    const [currentMovie, setCurrentMovie] = useState({});
+    const { history, location, match } = useReactRouter();
 
-        this.state = {
-            currentMovie: {},
-            similarGenreFilms: [],
-            error: null
-        };
-        this.movieService = new MovieService();
-    }
-
-    componentDidMount() {
-        this.movieService.getMovie(this.props.match.params.id)
+    useEffect(() => {
+        movieService.getMovie(props.match.params.id)
             .then(movie => {
-                this.setState({ currentMovie: movie })
-                this.movieService.searchMovie('genres', movie.genres[0])
-                    .then(similarMovies => this.setState({ similarGenreFilms: similarMovies })
-                        .catch(error => this.setState({ error })))
-            }).catch(error => this.setState({ error }));
+                setCurrentMovie(movie)
+                movieService.searchMovie('genres', movie.genres[0])
+                    .then(similarMovies => {
+                        setsimilarGenreFilms(similarMovies);
+
+                    }).catch(error => setError(error))
+            }).catch(error => setError(error));
+    }, [match]);
+
+    if (error) {
+        return <ErrorMessage />
     }
 
-    render() {
-        if (this.state.error) {
-            return <ErrorMessage/>
-        }
-
-        return (
-            <div>
-                <MovieDetails movie={this.state.currentMovie}></MovieDetails>
-                <MoviesList items={this.state.similarGenreFilms} />
-            </div>
-        );
-    }
+    return (
+        <div>
+            <MovieDetails movie={currentMovie}></MovieDetails>
+            <MoviesList items={similarGenreFilms} />
+        </div>
+    );
 }
