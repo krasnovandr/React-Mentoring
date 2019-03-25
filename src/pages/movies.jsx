@@ -13,9 +13,9 @@ export function Movies(props) {
   const [error, setError] = useState(null);
   const [moviesList, setMoviesList] = useState([]);
 
-  const movieService = new MovieService();
 
   useEffect(() => {
+    const movieService = new MovieService();
     movieService.searchMovie(searchCriteria.searchBy, searchCriteria.query, orderBy, order)
       .then(data => setMoviesList(data))
       .catch(error => setError(error));

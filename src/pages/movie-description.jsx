@@ -7,13 +7,14 @@ import { ErrorMessage } from "../shared-components/error-message";
 
 
 export function MovieDescription(props) {
-    const movieService = new MovieService();
+
     const [error, setError] = useState(null);
     const [similarGenreFilms, setsimilarGenreFilms] = useState([]);
     const [currentMovie, setCurrentMovie] = useState({});
     const { history, location, match } = useReactRouter();
 
     useEffect(() => {
+        const movieService = new MovieService();
         movieService.getMovie(props.match.params.id)
             .then(movie => {
                 setCurrentMovie(movie)
