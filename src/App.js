@@ -1,22 +1,25 @@
 import React from "react";
+import { hot } from "react-hot-loader";
 import "./App.css";
-import { PureComponent } from "./components/PureComponent";
-import { CreateElementComponent } from "./components/CreateElementComponent";
-import { DefaultComponent } from "./components/DefaultComponent";
-import { FunctionalComponent } from "./components/FunctionalComponent";
+import { Movies } from "./pages/movies";
+import { MovieDescription } from "./pages/movie-description";
+import Header from "./shared-components/header";
+import {
+  Route
+} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-class App extends React.Component {
-  render() {
-    return (
-      <div className="App">
-        <h1>Hello World</h1>
-        <DefaultComponent name="Andrei" />
-        <CreateElementComponent />
-        <FunctionalComponent name="Andrei" />
-        <PureComponent name="Andrei" />
-      </div>
-    );
-  }
+function App() {
+  return (
+
+    <div className="App">
+
+      <Header></Header>
+      <Route path="/" exact component={Movies} />
+      <Route path="/search" exact component={Movies} />
+      <Route path="/movies/:id" component={MovieDescription} />
+    </div>
+  );
 }
 
-export default App;
+export default withRouter(hot(module)(App));
