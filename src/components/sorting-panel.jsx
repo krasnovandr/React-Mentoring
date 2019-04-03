@@ -24,12 +24,12 @@ class SortingPanel extends React.Component {
   state = { orderBy: "", order: "" };
 
   handleChangeSortingBy = e => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [e.target.name]: e.target.value });
     this.props.onOrderByChanged(e.target.value);
   };
 
   handleChangeSortingOrder = e => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ [e.target.name]: e.target.value });
     this.props.onOrderChanged(e.target.value);
   };
   render() {
@@ -49,8 +49,8 @@ class SortingPanel extends React.Component {
             <Grid item md={4} className={classes.item}>
               <FormControl >
                 <div>
-                  <div>Movies Found {movies.data.length} </div>
-                  <div>Average Rating  {averageMovieRating}</div>
+                  <div>Movies Found {movies.data.length}</div>
+                  <div>Average Rating {averageMovieRating}</div>
                 </div>
               </FormControl>
             </Grid>
@@ -60,6 +60,7 @@ class SortingPanel extends React.Component {
             <FormControl>
               <Select
                 native
+                data-testid="orderby-dropdown"
                 value={this.state.orderBy}
                 onChange={this.handleChangeSortingBy}
                 inputProps={{
@@ -76,6 +77,7 @@ class SortingPanel extends React.Component {
           <Grid item md={4} className={classes.item}>
             <FormControl>
               <Select
+                data-testid="order-dropdown"
                 native
                 value={this.state.order}
                 onChange={this.handleChangeSortingOrder}

@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Error  Boundary Component should render error component 1`] = `
+<div
+  className="MuiGrid-container-1 MuiGrid-spacing-xs-24-25 MuiGrid-direction-xs-column-4 MuiGrid-align-items-xs-center-9 MuiGrid-justify-xs-center-18"
+>
+  <div
+    className="MuiGrid-item-2 MuiGrid-grid-xs-12-41"
+  >
+    <h1>
+      Something went wrong. Please contact the asministrator.
+    </h1>
+  </div>
+</div>
+`;

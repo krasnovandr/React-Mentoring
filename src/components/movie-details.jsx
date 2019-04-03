@@ -54,7 +54,7 @@ function MovieDetails(props) {
             </Grid>
           </Grid>
           <Grid item>
-            <Link to={`/search`}>Search</Link>
+            <Link to={`/search`} data-testid="search-link" >Search</Link>
             <Typography variant="subtitle1">{movie.vote_average}</Typography>
           </Grid>
         </Grid>

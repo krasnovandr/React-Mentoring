@@ -31,7 +31,7 @@ function MoviesList(props) {
   } else {
     return (
       <div className={classes.root}>
-        <Grid container spacing={24}>
+        <Grid container spacing={24} data-testid="movies-list">
           {movies.data.map(movie => (
             <Grid item md={4} key={movie.id}>
               <MovieListDetails movie={movie} ></MovieListDetails>

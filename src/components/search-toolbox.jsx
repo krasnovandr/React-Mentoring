@@ -48,11 +48,11 @@ class SearchToolbox extends React.Component {
   };
 
   handleSearchChange = e => {
-    this.setState({ query: event.target.value });
+    this.setState({ query: e.target.value });
   };
 
   handleSearchbyCriteria = e => {
-    this.setState({ searchBy: event.target.value });
+    this.setState({ searchBy: e.target.value });
   };
 
   render() {
@@ -68,6 +68,7 @@ class SearchToolbox extends React.Component {
               value={this.state.query}
               onChange={this.handleSearchChange}
               margin="normal"
+              data-testid="search-input"
             />
           </Grid>
           <Grid item xs={2}>
@@ -75,21 +76,25 @@ class SearchToolbox extends React.Component {
           </Grid>
           <Grid item xs={4} >
             <RadioGroup
-              aria-label="Gender"
-              name="gender1"
+              aria-label="Genre"
+              name="genres"
               className={classes.group}
               value={this.state.searchBy}
-              onChange={this.handleSearchbyCriteria}
+              data-testid="search-radiogroup"
             >
               <FormControlLabel
                 value="title"
                 control={<Radio />}
                 label="Title"
+                data-testid="title-radio"
+                onChange={this.handleSearchbyCriteria}
               />
               <FormControlLabel
                 value="genres"
                 control={<Radio />}
                 label="Genre"
+                data-testid="genre-radio"
+                onChange={this.handleSearchbyCriteria}
               />
             </RadioGroup>
           </Grid>
@@ -98,6 +103,7 @@ class SearchToolbox extends React.Component {
               variant="contained"
               color="primary"
               onClick={this.handleTriggerSearch}
+              data-testid="search-button"
             >
               Search
             </Button>
