@@ -3,7 +3,8 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-
+import { connect } from "react-redux";
+import { orderByChanged, orderChanged } from "../actions";
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -96,5 +97,17 @@ class SortingPanel extends React.Component {
     );
   }
 }
+function mapStateToProps(state) {
+  // const { moviesList } = state
+  return { moviesList: state.moviesList }
+}
 
-export default withStyles(styles)(SortingPanel);
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    onOrderByChanged: (newOrderBy) => dispatch(orderByChanged(newOrderBy)),
+    onOrderChanged: (newOrder) => dispatch(orderChanged(newOrder)),
+    // reset: () => dispatch({ type: 'RESET' })
+  }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SortingPanel));

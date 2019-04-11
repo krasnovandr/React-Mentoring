@@ -4,9 +4,15 @@ import { MovieService } from "../movie-service";
 import SearchToolbox from "../components/search-toolbox";
 import SortingPanel from "../components/sorting-panel";
 import { ErrorMessage } from "../shared-components/error-message";
+import { connect } from "react-redux";
 
+function mapDispatchToProps(dispatch) {
+  return {
+    getMovies: article => dispatch(getMovies(article))
+  };
+}
 
-export function Movies(props) {
+function Movies(props) {
   const [searchCriteria, setSearchCriteria] = useState({ query: "", searchBy: "title" });
   const [orderBy, setOrderBy] = useState("release_date");
   const [order, setOrder] = useState("asc");
@@ -41,3 +47,5 @@ export function Movies(props) {
     </div>
   );
 }
+
+export default connect(null, mapDispatchToProps)(Movies);

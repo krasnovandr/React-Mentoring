@@ -8,6 +8,8 @@ import Grid from "@material-ui/core/Grid";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
+import { changeFilter, queryChanged, searchByChanged } from "../actions";
+import { connect } from "react-redux";
 const styles = theme => ({
   root: {
     minHeight: "30px",
@@ -41,18 +43,22 @@ const styles = theme => ({
 });
 
 class SearchToolbox extends React.Component {
-  state = { query: "", searchBy: "title" };
-
+  //  state = { query: "", searchBy: "title" };
+  constructor(props) {
+    super(props);
+  }
   handleTriggerSearch = e => {
     this.props.onSearchTriggered(this.state);
   };
 
   handleSearchChange = e => {
-    this.setState({ query: e.target.value });
+    this.props.dispatch(queryChanged(e.target.value));
+    // this.setState({ query: e.target.value });
   };
 
   handleSearchbyCriteria = e => {
-    this.setState({ searchBy: e.target.value });
+    this.props.dispatch(searchByChanged(e.target.value));
+    // this.setState({ searchBy: e.target.value });
   };
 
   render() {
@@ -65,7 +71,7 @@ class SearchToolbox extends React.Component {
               id="standard-name"
               label="Search"
               className={classes.textField}
-              value={this.state.query}
+              value={this.props.query}
               onChange={this.handleSearchChange}
               margin="normal"
               data-testid="search-input"
@@ -79,7 +85,7 @@ class SearchToolbox extends React.Component {
               aria-label="Genre"
               name="genres"
               className={classes.group}
-              value={this.state.searchBy}
+              value={this.props.searchBy}
               data-testid="search-radiogroup"
             >
               <FormControlLabel
@@ -114,4 +120,21 @@ class SearchToolbox extends React.Component {
   }
 }
 
-export default withStyles(styles)(SearchToolbox);
+function mapStateToProps(state) {
+  // const { moviesList } = state
+  // searchCriteria: { query: "", searchBy: "title" },
+  return {
+    query: state.searchCriteria.query, searchBy: state.searchCriteria.searchBy
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    // dispatching plain actions
+    onSearchTriggered: (newSearchResult) => dispatch(changeFilter(newSearchResult)),
+    // reset: () => dispatch({ type: 'RESET' })
+  }
+}
+export default connect(mapStateToProps)(withStyles(styles)(SearchToolbox));
+
+// export default withStyles(styles)(SearchToolbox);
