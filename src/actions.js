@@ -1,3 +1,5 @@
+import { MovieService } from "./movie-service";
+
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 export const GET_MOVIES = 'GET_MOVIES'
 
@@ -7,39 +9,46 @@ export const ORDER_BY_CHANGED = 'ORDER_BY_CHANGED'
 export const SEARCH_BY_CHANGED = 'SEARCH_BY_CHANGED'
 export const QUERY_CHANGED = 'QUERY_CHANGED'
 
-// handleSearchChange = e => {
-//     this.props.dispatch(changeFilter(newSearchResult));
-//     // this.setState({ query: e.target.value });
-//   };
 
-//   handleSearchbyCriteria = e => {
-//     // this.setState({ searchBy: e.target.value });
-//   };
-export function changeFilter(newSearchCriteria) {
-    return { type: CHANGE_FILTER, searchCriteria: newSearchCriteria }
+export const LOAD_MOVIES_REQUEST = 'LOAD_MOVIES_REQUEST'
+export const LOAD_MOVIES_SUCCESS = 'LOAD_MOVIES_SUCCESS'
+export const LOAD_MOVIES_FAILURE = 'LOAD_MOVIES_FAILURE'
+
+export function loadMoviesSuccess(data) {
+    return { type: LOAD_MOVIES_SUCCESS, payload: data }
 }
 
-export function getMovies(payload) {
-    return { type: GET_MOVIES, payload }
+export function loadMoviesFailure() {
+    return { type: LOAD_MOVIES_FAILURE, error: true }
 }
 
-// orderBy: 'release_date',
-// order: 'asc',
+
+
+
+export function loadMoviesRequest() {
+    return function (dispatch, getState) {
+        const movieService = new MovieService();
+        const state = getState();
+        return movieService.searchMovie(state.searchCriteria.searchBy, state.searchCriteria.query, state.orderBy, state.order)
+            .then(data => dispatch(loadMoviesSuccess(data)))
+            .catch(error => dispatch(loadMoviesFailure()));
+    }
+}
 
 export function orderByChanged(newOrderBy) {
-    return { type: ORDER_BY_CHANGED, orderBy: newOrderBy }
+    return { type: ORDER_BY_CHANGED, payload: newOrderBy }
 }
 
 export function orderChanged(newOrder) {
-    return { type: ORDER_CHANGED, order: newOrder }
+    return { type: ORDER_CHANGED, payload: newOrder }
 }
 
 export function queryChanged(newQuery) {
-    return { type: QUERY_CHANGED, query: newQuery }
+    return { type: QUERY_CHANGED, payload: newQuery }
 }
 
 export function searchByChanged(newSearchBy) {
-    return { type: SEARCH_BY_CHANGED, searchBy: newSearchBy }
+    return { type: SEARCH_BY_CHANGED, payload: newSearchBy }
 }
 
 

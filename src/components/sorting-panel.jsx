@@ -3,8 +3,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { connect } from "react-redux";
-import { orderByChanged, orderChanged } from "../actions";
+
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -22,15 +21,12 @@ const styles = theme => ({
 });
 
 class SortingPanel extends React.Component {
-  state = { orderBy: "", order: "" };
 
   handleChangeSortingBy = e => {
-    this.setState({ [e.target.name]: e.target.value });
     this.props.onOrderByChanged(e.target.value);
   };
 
   handleChangeSortingOrder = e => {
-    this.setState({ [e.target.name]: e.target.value });
     this.props.onOrderChanged(e.target.value);
   };
   render() {
@@ -62,7 +58,7 @@ class SortingPanel extends React.Component {
               <Select
                 native
                 data-testid="orderby-dropdown"
-                value={this.state.orderBy}
+                value={this.props.orderBy}
                 onChange={this.handleChangeSortingBy}
                 inputProps={{
                   name: "orderBy",
@@ -80,7 +76,7 @@ class SortingPanel extends React.Component {
               <Select
                 data-testid="order-dropdown"
                 native
-                value={this.state.order}
+                value={this.props.order}
                 onChange={this.handleChangeSortingOrder}
                 inputProps={{
                   name: "order",
@@ -97,17 +93,5 @@ class SortingPanel extends React.Component {
     );
   }
 }
-function mapStateToProps(state) {
-  // const { moviesList } = state
-  return { moviesList: state.moviesList }
-}
 
-const mapDispatchToProps = dispatch => {
-  return {
-    // dispatching plain actions
-    onOrderByChanged: (newOrderBy) => dispatch(orderByChanged(newOrderBy)),
-    onOrderChanged: (newOrder) => dispatch(orderChanged(newOrder)),
-    // reset: () => dispatch({ type: 'RESET' })
-  }
-}
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SortingPanel));
+export default withStyles(styles)(SortingPanel);

@@ -3,7 +3,6 @@ import MovieListDetails from "./movie-list-details";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { grey } from "@material-ui/core/colors";
-import {connect} from "react-redux";
 
 const styles = theme => ({
   root: {
@@ -44,11 +43,4 @@ function MoviesList(props) {
   }
 }
 
-function mapStateToProps(state) {
-  // const { moviesList } = state
-  return { items: state.moviesList }
-}
-
-export default connect(mapStateToProps)(withStyles(styles)(MoviesList));
-
-// export default withStyles(styles)(MoviesList);
+export default withStyles(styles)(MoviesList);
