@@ -14,6 +14,34 @@ export const LOAD_MOVIES_REQUEST = 'LOAD_MOVIES_REQUEST'
 export const LOAD_MOVIES_SUCCESS = 'LOAD_MOVIES_SUCCESS'
 export const LOAD_MOVIES_FAILURE = 'LOAD_MOVIES_FAILURE'
 
+export const LOAD_MOVIEDETAILS_REQUEST = 'LOAD_MOVIEDETAILS_REQUEST'
+export const LOAD_MOVIEDETAILS_SUCCESS = 'LOAD_MOVIEDETAILS_SUCCESS'
+export const LOAD_MOVIEDETAILS_FAILURE = 'LOAD_MOVIEDETAILS_FAILURE'
+
+export function loadMovieDetails(id) {
+    return function (dispatch, getState) {
+        const movieService = new MovieService();
+        movieService.getMovie(id)
+            .then(movie => {
+
+                movieService.searchMovie('genres', movie.genres[0])
+                    .then(similarMovies => {
+                        dispatch(loadMovieDetailsSuccess({
+                            currentMovie: movie,
+                            similarGenreFilms: similarMovies
+                        }))
+                    }).catch(error => dispatch(loadMovieDetailsFailure()))
+            }).catch(error => dispatch(loadMovieDetailsFailure()));
+    }
+}
+
+export function loadMovieDetailsSuccess(data) {
+    return { type: LOAD_MOVIEDETAILS_SUCCESS, payload: data }
+}
+export function loadMovieDetailsFailure() {
+    return { type: LOAD_MOVIEDETAILS_FAILURE, error: true }
+}
+
 export function loadMoviesSuccess(data) {
     return { type: LOAD_MOVIES_SUCCESS, payload: data }
 }

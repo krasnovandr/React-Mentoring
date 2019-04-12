@@ -2,7 +2,7 @@ import React from "react";
 import { hot } from "react-hot-loader";
 import "./App.css";
 import Movies from "./pages/movies";
-import { MovieDescription } from "./pages/movie-description";
+import MovieDescription from "./pages/movie-description";
 import Header from "./shared-components/header";
 import {
   Route

@@ -1,4 +1,4 @@
-import { CHANGE_FILTER, GET_MOVIES, ORDER_CHANGED, ORDER_BY_CHANGED, QUERY_CHANGED, SEARCH_BY_CHANGED, LOAD_MOVIES_SUCCESS, LOAD_MOVIES_FAILURE } from "../actions";
+import { CHANGE_FILTER, GET_MOVIES, ORDER_CHANGED, ORDER_BY_CHANGED, QUERY_CHANGED, SEARCH_BY_CHANGED, LOAD_MOVIES_SUCCESS, LOAD_MOVIES_FAILURE, LOAD_MOVIEDETAILS_SUCCESS, LOAD_MOVIEDETAILS_FAILURE } from "../actions";
 
 
 const initialState = {
@@ -6,11 +6,27 @@ const initialState = {
     order: 'asc',
     searchCriteria: { query: "", searchBy: "title" },
     moviesList: [],
-    errorMoviesLoading: false
+    errorMoviesLoading: false,
+    errorMovieDetailsLoading: false,
+    movieDetails: {
+        currentMovie: {},
+        similarGenreFilms: []
+    }
 }
 
 function rootReducer(state = initialState, action) {
     switch (action.type) {
+        case LOAD_MOVIEDETAILS_SUCCESS:
+            return {
+                ...state,
+                movieDetails: action.payload,
+                errorMovieDetailsLoading: false
+            }
+        case LOAD_MOVIEDETAILS_FAILURE:
+            return {
+                ...state,
+                errorMovieDetailsLoading: action.error
+            }
         case LOAD_MOVIES_SUCCESS:
             return {
                 ...state,
@@ -33,11 +49,6 @@ function rootReducer(state = initialState, action) {
                 orderBy: action.payload
             }
         case QUERY_CHANGED:
-            //two possible syntaces
-            // return Object.assign({}, state, {
-            //     searchCriteria: { ...state.searchCriteria, query: action.query }
-            // })
-
             return {
                 ...state,
                 searchCriteria: { ...state.searchCriteria, query: action.payload }
@@ -47,8 +58,6 @@ function rootReducer(state = initialState, action) {
                 ...state,
                 searchCriteria: { ...state.searchCriteria, searchBy: action.payload }
             }
-
-
 
         default:
             return state;
