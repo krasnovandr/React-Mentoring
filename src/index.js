@@ -6,13 +6,16 @@ import {
 } from 'react-router-dom';
 import { ErrorBoundary } from "./shared-components/error-boundary.jsx";
 import { Provider } from 'react-redux'
-import store from './store'
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistor, store } from './store'
 
 ReactDOM.render(
     <ErrorBoundary>
         <HashRouter>
             <Provider store={store}>
-                <App />
+                <PersistGate loading={null} persistor={persistor}>
+                    <App />
+                </PersistGate>
             </Provider>
         </HashRouter>
     </ErrorBoundary>, document.getElementById("root"));
