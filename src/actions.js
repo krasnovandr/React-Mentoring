@@ -19,11 +19,10 @@ export const LOAD_MOVIEDETAILS_SUCCESS = 'LOAD_MOVIEDETAILS_SUCCESS'
 export const LOAD_MOVIEDETAILS_FAILURE = 'LOAD_MOVIEDETAILS_FAILURE'
 
 export function loadMovieDetails(id) {
-    return function (dispatch, getState) {
+    return function (dispatch) {
         const movieService = new MovieService();
         movieService.getMovie(id)
             .then(movie => {
-
                 movieService.searchMovie('genres', movie.genres[0])
                     .then(similarMovies => {
                         dispatch(loadMovieDetailsSuccess({
@@ -57,7 +56,7 @@ export function loadMoviesRequest() {
     return function (dispatch, getState) {
         const movieService = new MovieService();
         const state = getState();
-        return movieService.searchMovie(state.searchCriteria.searchBy, state.searchCriteria.query, state.orderBy, state.order)
+        return movieService.searchMovie(state.filter.searchBy, state.filter.query, state.order.orderBy, state.order.order)
             .then(data => dispatch(loadMoviesSuccess(data)))
             .catch(error => dispatch(loadMoviesFailure()));
     }

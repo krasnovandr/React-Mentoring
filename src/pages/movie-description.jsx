@@ -21,7 +21,7 @@ class MovieDescription extends React.Component {
     }
 
     render() {
-        if (error) {
+        if (this.props.error) {
             return <ErrorMessage />
         }
 
@@ -36,8 +36,8 @@ class MovieDescription extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        movieDetails: state.movieDetails,
-        error: state.errorMovieDetailsLoading
+        movieDetails: state.movies.movieDetails,
+        error: state.movies.errorMovieDetailsLoading
     }
 }
 export default connect(mapStateToProps, null)(MovieDescription);

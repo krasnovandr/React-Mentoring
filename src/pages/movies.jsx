@@ -47,14 +47,14 @@ class Movies extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    orderBy: state.orderBy,
-    order: state.order,
-    moviesList: state.moviesList,
+    orderBy: state.order.orderBy,
+    order: state.order.order,
+    moviesList: state.movies.moviesList,
     searchCriteria: {
-      query: state.searchCriteria.query,
-      searchBy: state.searchCriteria.searchBy
+      query: state.filter.query,
+      searchBy: state.filter.searchBy
     },
-    error: state.errorMoviesLoading
+    error: state.movies.errorMoviesLoading
   }
 }
 
