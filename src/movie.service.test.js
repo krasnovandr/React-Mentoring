@@ -1,8 +1,6 @@
-import React from 'react'
 import { render, cleanup } from 'react-testing-library'
-import { Route, Link, MemoryRouter } from "react-router-dom";
-import renderer from 'react-test-renderer';
 import { MovieService } from './movie-service'
+
 afterEach(cleanup)
 describe('Movie Service Component', () => {
     it('should make call to search api with builded url', () => {

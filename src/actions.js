@@ -21,15 +21,15 @@ export const LOAD_MOVIEDETAILS_FAILURE = 'LOAD_MOVIEDETAILS_FAILURE'
 export function loadMovieDetails(id) {
     return function (dispatch) {
         const movieService = new MovieService();
-        movieService.getMovie(id)
+        return movieService.getMovie(id)
             .then(movie => {
-                movieService.searchMovie('genres', movie.genres[0])
-                    .then(similarMovies => {
+                return movieService.searchMovie('genres', movie.genres[0])
+                    .then(similarMovies =>
                         dispatch(loadMovieDetailsSuccess({
                             currentMovie: movie,
                             similarGenreFilms: similarMovies
                         }))
-                    }).catch(error => dispatch(loadMovieDetailsFailure()))
+                    ).catch(error => dispatch(loadMovieDetailsFailure()))
             }).catch(error => dispatch(loadMovieDetailsFailure()));
     }
 }
