@@ -41,18 +41,16 @@ const styles = theme => ({
 });
 
 class SearchToolbox extends React.Component {
-  state = { query: "", searchBy: "title" };
-
   handleTriggerSearch = e => {
-    this.props.onSearchTriggered(this.state);
+    this.props.onSearchTriggered();
   };
 
   handleSearchChange = e => {
-    this.setState({ query: e.target.value });
+    this.props.onSearchChanged(e.target.value);
   };
 
   handleSearchbyCriteria = e => {
-    this.setState({ searchBy: e.target.value });
+    this.props.onSearchByChanged(e.target.value);
   };
 
   render() {
@@ -65,7 +63,7 @@ class SearchToolbox extends React.Component {
               id="standard-name"
               label="Search"
               className={classes.textField}
-              value={this.state.query}
+              value={this.props.searchCriteria.query}
               onChange={this.handleSearchChange}
               margin="normal"
               data-testid="search-input"
@@ -79,7 +77,7 @@ class SearchToolbox extends React.Component {
               aria-label="Genre"
               name="genres"
               className={classes.group}
-              value={this.state.searchBy}
+              value={this.props.searchCriteria.searchBy}
               data-testid="search-radiogroup"
             >
               <FormControlLabel

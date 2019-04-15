@@ -8,54 +8,72 @@ afterEach(cleanup)
 describe('SearchToolbox Component', () => {
     it('when search clicked with default params search by title and blank query', () => {
         const onSearchTriggered = jest.fn();
-
+        const searchCriteria = { query: '', searchBy: '' }
         const { container, getByTestId, debug } = render(
             <MemoryRouter>
                 <SearchToolbox
-                    onSearchTriggered={onSearchTriggered} />
+                    onSearchTriggered={onSearchTriggered}
+                    searchCriteria={searchCriteria}
+                />
             </MemoryRouter>)
 
         const searchButton = getByTestId('search-button');
         fireEvent.click(searchButton);
         expect(onSearchTriggered).toHaveBeenCalledTimes(1)
-        expect(onSearchTriggered).toHaveBeenCalledWith({ query: "", searchBy: "title" });
     })
-
-    it('when search clicked with update query search func should be triggered with appropriate value', () => {
-        const onSearchTriggered = jest.fn();
-
+    it('when query is filled in search input event is triggered', () => {
+        const onSearchChanged = jest.fn();
+        const searchCriteria = { query: '', searchBy: '' }
         const { container, getByTestId, debug } = render(
-            <MemoryRouter>
-                <SearchToolbox
-                    onSearchTriggered={onSearchTriggered} />
-            </MemoryRouter>)
 
-        const searchButton = getByTestId('search-button');
+            < MemoryRouter >
+                <SearchToolbox
+                    onSearchChanged={onSearchChanged}
+                    searchCriteria={searchCriteria}
+                />
+            </MemoryRouter >)
+
         const searchInput = getByTestId('search-input').querySelector('input');
 
         fireEvent.change(searchInput, { target: { value: "Star Wars" } })
-        fireEvent.click(searchButton);
-        expect(onSearchTriggered).toHaveBeenCalledTimes(1)
-        expect(onSearchTriggered).toHaveBeenCalledWith({ query: "Star Wars", searchBy: "title" });
+        expect(onSearchChanged).toHaveBeenCalledTimes(1)
+        expect(onSearchChanged).toHaveBeenCalledWith('Star Wars');
     })
     it('when radio button is changed news search criteria appears', () => {
-        const onSearchTriggered = jest.fn();
-
+        const onSearchByChanged = jest.fn();
+        const searchCriteria = { query: '', searchBy: '' }
         const { container, getByTestId, debug } = render(
             <MemoryRouter>
                 <SearchToolbox
-                    onSearchTriggered={onSearchTriggered} />
+                    searchCriteria={searchCriteria}
+                    onSearchByChanged={onSearchByChanged}
+                />
             </MemoryRouter>)
 
 
-        const searchInput = container.querySelector('input');
-        fireEvent.change(searchInput, { target: { value: "Star Wars" } })
         const genreRadioButton = getByTestId('genre-radio').querySelector('input');
         fireEvent.click(genreRadioButton, { target: { value: "genres" } })
 
-        const searchButton = getByTestId('search-button');
-        fireEvent.click(searchButton);
-        expect(onSearchTriggered).toHaveBeenCalledTimes(1)
-        expect(onSearchTriggered).toHaveBeenCalledWith({ query: "Star Wars", searchBy: "genres" });
+        expect(onSearchByChanged).toHaveBeenCalledTimes(1)
+        expect(onSearchByChanged).toHaveBeenCalledWith('genres');
+    })
+    it('when new props are recieved controls are updated', () => {
+        const { getByTestId, rerender } = render(
+            <MemoryRouter>
+                <SearchToolbox
+                    searchCriteria={{ query: '', searchBy: 'genres' }}
+                />
+            </MemoryRouter>)
+
+        expect(getByTestId('search-input').querySelector('input').value).toBe('')
+
+        rerender(
+            <MemoryRouter>
+                <SearchToolbox
+                    searchCriteria={{ query: 'Star Wars', searchBy: 'title' }}
+                />
+            </MemoryRouter>)
+
+        expect(getByTestId('search-input').querySelector('input').value).toBe('Star Wars')
     })
 })

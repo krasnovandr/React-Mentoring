@@ -21,15 +21,12 @@ const styles = theme => ({
 });
 
 class SortingPanel extends React.Component {
-  state = { orderBy: "", order: "" };
 
   handleChangeSortingBy = e => {
-    this.setState({ [e.target.name]: e.target.value });
     this.props.onOrderByChanged(e.target.value);
   };
 
   handleChangeSortingOrder = e => {
-    this.setState({ [e.target.name]: e.target.value });
     this.props.onOrderChanged(e.target.value);
   };
   render() {
@@ -61,7 +58,7 @@ class SortingPanel extends React.Component {
               <Select
                 native
                 data-testid="orderby-dropdown"
-                value={this.state.orderBy}
+                value={this.props.orderBy}
                 onChange={this.handleChangeSortingBy}
                 inputProps={{
                   name: "orderBy",
@@ -79,7 +76,7 @@ class SortingPanel extends React.Component {
               <Select
                 data-testid="order-dropdown"
                 native
-                value={this.state.order}
+                value={this.props.order}
                 onChange={this.handleChangeSortingOrder}
                 inputProps={{
                   name: "order",

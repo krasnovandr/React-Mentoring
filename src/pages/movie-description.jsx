@@ -1,39 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import useReactRouter from 'use-react-router';
+import React from 'react';
 import MoviesList from "../components/movies-list";
 import MovieDetails from "../components/movie-details";
-import { MovieService } from "../movie-service";
 import { ErrorMessage } from "../shared-components/error-message";
+import { loadMovieDetails } from '../actions';
+import { connect } from "react-redux";
 
-
-export function MovieDescription(props) {
-
-    const [error, setError] = useState(null);
-    const [similarGenreFilms, setsimilarGenreFilms] = useState([]);
-    const [currentMovie, setCurrentMovie] = useState({});
-    const { history, location, match } = useReactRouter();
-
-    useEffect(() => {
-        const movieService = new MovieService();
-        movieService.getMovie(props.match.params.id)
-            .then(movie => {
-                setCurrentMovie(movie)
-                movieService.searchMovie('genres', movie.genres[0])
-                    .then(similarMovies => {
-                        setsimilarGenreFilms(similarMovies);
-
-                    }).catch(error => setError(error))
-            }).catch(error => setError(error));
-    }, [match]);
-
-    if (error) {
-        return <ErrorMessage />
+class MovieDescription extends React.Component {
+    constructor(props) {
+        super(props);
     }
 
-    return (
-        <div>
-            <MovieDetails movie={currentMovie}></MovieDetails>
-            <MoviesList items={similarGenreFilms} />
-        </div>
-    );
+    componentDidMount() {
+        this.props.dispatch(loadMovieDetails(this.props.match.params.id));
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.match.params.id !== prevProps.match.params.id) {
+            this.props.dispatch(loadMovieDetails(this.props.match.params.id));
+        }
+    }
+
+    render() {
+        if (this.props.error) {
+            return <ErrorMessage />
+        }
+
+        return (
+            <div>
+                <MovieDetails movie={this.props.movieDetails.currentMovie}></MovieDetails>
+                <MoviesList items={this.props.movieDetails.similarGenreFilms} />
+            </div>
+        );
+    }
 }
+
+function mapStateToProps(state) {
+    return {
+        movieDetails: state.movies.movieDetails,
+        error: state.movies.errorMovieDetailsLoading
+    }
+}
+export default connect(mapStateToProps, null)(MovieDescription);

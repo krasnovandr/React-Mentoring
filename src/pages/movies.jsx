@@ -1,43 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import MoviesList from "../components/movies-list";
-import { MovieService } from "../movie-service";
 import SearchToolbox from "../components/search-toolbox";
 import SortingPanel from "../components/sorting-panel";
 import { ErrorMessage } from "../shared-components/error-message";
+import { connect } from "react-redux";
+import { loadMoviesRequest, queryChanged, orderByChanged, orderChanged, searchByChanged } from '../actions';
 
-
-export function Movies(props) {
-  const [searchCriteria, setSearchCriteria] = useState({ query: "", searchBy: "title" });
-  const [orderBy, setOrderBy] = useState("release_date");
-  const [order, setOrder] = useState("asc");
-  const [error, setError] = useState(null);
-  const [moviesList, setMoviesList] = useState([]);
-
-
-  useEffect(() => {
-    const movieService = new MovieService();
-    movieService.searchMovie(searchCriteria.searchBy, searchCriteria.query, orderBy, order)
-      .then(data => setMoviesList(data))
-      .catch(error => setError(error));
-
-  }, [searchCriteria, orderBy, order]);
-
-
-  if (error) {
-    return <ErrorMessage></ErrorMessage>;
+class Movies extends React.Component {
+  constructor(props) {
+    super(props);
   }
 
-  return (
-    <div>
-      <SearchToolbox
-        onSearchTriggered={(newCriteria) => setSearchCriteria({ query: newCriteria.query, searchBy: newCriteria.searchBy })}
-      />
-      <SortingPanel
-        moviesList={moviesList}
-        onOrderByChanged={(newOrderBy) => setOrderBy(newOrderBy)}
-        onOrderChanged={(newOrder) => setOrder(newOrder)}
-      />
-      <MoviesList items={moviesList} />
-    </div>
-  );
+  componentDidMount() {
+    this.props.dispatch(loadMoviesRequest());
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.order !== prevProps.order || this.props.orderBy !== prevProps.orderBy) {
+      this.props.dispatch(loadMoviesRequest());
+    }
+  }
+  render() {
+    if (this.props.error) {
+      return <ErrorMessage></ErrorMessage>;
+    }
+
+    return (
+      <div>
+        <SearchToolbox
+          onSearchTriggered={(newCriteria) => this.props.dispatch(loadMoviesRequest())}
+          onSearchChanged={(newQuery) => this.props.dispatch(queryChanged(newQuery))}
+          onSearchByChanged={(newSearchBy) => this.props.dispatch(searchByChanged(newSearchBy))}
+          searchCriteria={this.props.searchCriteria}
+        />
+        <SortingPanel
+          moviesList={this.props.moviesList}
+          onOrderByChanged={(newOrderBy) => this.props.dispatch(orderByChanged(newOrderBy))}
+          onOrderChanged={(newOrder) => this.props.dispatch(orderChanged(newOrder))}
+          order={this.props.order}
+          orderBy={this.props.orderBy}
+        />
+        <MoviesList items={this.props.moviesList} />
+      </div >
+    );
+  }
 }
+function mapStateToProps(state) {
+  return {
+    orderBy: state.order.orderBy,
+    order: state.order.order,
+    moviesList: state.movies.moviesList,
+    searchCriteria: {
+      query: state.filter.query,
+      searchBy: state.filter.searchBy
+    },
+    error: state.movies.errorMoviesLoading
+  }
+}
+
+export default connect(mapStateToProps, null)(Movies);
