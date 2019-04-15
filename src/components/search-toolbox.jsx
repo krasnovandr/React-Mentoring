@@ -41,9 +41,6 @@ const styles = theme => ({
 });
 
 class SearchToolbox extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   handleTriggerSearch = e => {
     this.props.onSearchTriggered();
   };
