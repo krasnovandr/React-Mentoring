@@ -5,9 +5,9 @@ import Movies from "./pages/movies";
 import MovieDescription from "./pages/movie-description";
 import Header from "./shared-components/header";
 import {
-  Route
+  Route, Switch
 } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { NotFound } from "./pages/not-found";
 
 function App() {
   return (
@@ -15,11 +15,15 @@ function App() {
     <div className="App">
 
       <Header></Header>
-      <Route path="/" exact component={Movies} />
-      <Route path="/search" exact component={Movies} />
-      <Route path="/movies/:id" component={MovieDescription} />
+      <Switch>
+        <Route path="/" exact component={Movies} />
+        <Route path="/search" component={Movies} />
+        <Route path="/movies/:id" component={MovieDescription} />
+        <Route component={NotFound} />
+      </Switch>
+
     </div>
   );
 }
 
-export default withRouter(hot(module)(App));
+export default hot(module)(App);

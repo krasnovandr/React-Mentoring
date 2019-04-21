@@ -52,11 +52,12 @@ export function loadMoviesFailure() {
 
 
 
-export function loadMoviesRequest() {
+export function loadMoviesRequest(query) {
     return function (dispatch, getState) {
         const movieService = new MovieService();
         const state = getState();
-        return movieService.searchMovie(state.filter.searchBy, state.filter.query, state.order.orderBy, state.order.order)
+        query = query ? query : state.filter.query
+        return movieService.searchMovie(state.filter.searchBy, query, state.order.orderBy, state.order.order)
             .then(data => dispatch(loadMoviesSuccess(data)))
             .catch(error => dispatch(loadMoviesFailure()));
     }

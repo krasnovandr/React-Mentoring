@@ -5,21 +5,22 @@ import SortingPanel from "../components/sorting-panel";
 import { ErrorMessage } from "../shared-components/error-message";
 import { connect } from "react-redux";
 import { loadMoviesRequest, queryChanged, orderByChanged, orderChanged, searchByChanged } from '../actions';
+import queryString from 'query-string'
+
 
 class Movies extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   componentDidMount() {
-    this.props.dispatch(loadMoviesRequest());
+    const searchQuery = queryString.parse(this.props.location.search);
+    this.props.dispatch(loadMoviesRequest(searchQuery.query));
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.order !== prevProps.order || this.props.orderBy !== prevProps.orderBy) {
+    if (this.props.order !== prevProps.order
+      || this.props.orderBy !== prevProps.orderBy) {
       this.props.dispatch(loadMoviesRequest());
     }
   }
+
   render() {
     if (this.props.error) {
       return <ErrorMessage></ErrorMessage>;
