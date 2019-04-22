@@ -17,9 +17,15 @@ class Movies extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.order !== prevProps.order
       || this.props.orderBy !== prevProps.orderBy) {
-      this.props.dispatch(loadMoviesRequest());
+      const searchQuery = queryString.parse(this.props.location.search);
+      this.props.dispatch(loadMoviesRequest(searchQuery.query));
     }
   }
+
+  onSearchTriggered = newQuery => {
+    this.props.history.replace({ search: `query=${newQuery}` });
+    this.props.dispatch(loadMoviesRequest(newQuery));
+  };
 
   render() {
     if (this.props.error) {
@@ -29,8 +35,7 @@ class Movies extends React.Component {
     return (
       <div>
         <SearchToolbox
-          onSearchTriggered={(newCriteria) => this.props.dispatch(loadMoviesRequest())}
-          onSearchChanged={(newQuery) => this.props.dispatch(queryChanged(newQuery))}
+          onSearchTriggered={(newQuery) => this.onSearchTriggered(newQuery)}
           onSearchByChanged={(newSearchBy) => this.props.dispatch(searchByChanged(newSearchBy))}
           searchCriteria={this.props.searchCriteria}
         />
@@ -52,7 +57,6 @@ function mapStateToProps(state) {
     order: state.order.order,
     moviesList: state.movies.moviesList,
     searchCriteria: {
-      query: state.filter.query,
       searchBy: state.filter.searchBy
     },
     error: state.movies.errorMoviesLoading

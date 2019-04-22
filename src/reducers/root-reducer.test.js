@@ -7,7 +7,6 @@ describe('root reducer', () => {
         expect(rootReducer(undefined, {})).toEqual(
             {
                 "filter": {
-                    "query": "",
                     "searchBy": "title",
                 },
                 "movies": {
