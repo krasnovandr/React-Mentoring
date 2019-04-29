@@ -2,12 +2,11 @@
   "name": "reactmentoring",
   "version": "1.0.0",
   "description": "React Mentoring App",
-  "main": "index.js",
+  "main": ".src/server/index.js",
   "scripts": {
     "test": "jest --watch",
     "coverage": "jest --coverage",
-    "start": "webpack-dev-server --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js",
+    "start": "cross-env NODE_ENV=development  node ./server",
     "cypress:open": "cypress open"
   },
   "repository": {
@@ -26,6 +25,7 @@
   "homepage": "https://github.com/krasnovandr/React-Mentoring#readme",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "cross-env": "^5.2.0",
     "express": "^4.16.4",
     "query-string": "^6.4.0",
     "react": "^16.8.4",
@@ -77,7 +77,11 @@
     "style-loader": "^0.23.0",
     "webpack": "^4.19.1",
     "webpack-cli": "^3.1.1",
+    "webpack-dev-middleware": "^3.6.2",
     "webpack-dev-server": "^3.1.8",
-    "webpack-merge": "^4.2.1"
+    "webpack-hot-middleware": "^2.24.4",
+    "webpack-hot-server-middleware": "^0.6.0",
+    "webpack-merge": "^4.2.1",
+    "webpack-node-externals": "^1.7.2"
   }
 }

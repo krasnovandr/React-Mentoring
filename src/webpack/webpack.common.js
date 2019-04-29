@@ -1,9 +1,21 @@
 const path = require("path");
 const webpack = require("webpack");
 
+const isDevMod = process.env.NODE_ENV === 'development';
+
 module.exports = {
-  entry: "./src/index.js",
-  
+
+  mode: process.env.NODE_ENV,
+
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
+      },
+    ],
+  },
   module: {
     rules: [
       {

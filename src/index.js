@@ -11,13 +11,19 @@ import { persistor, store } from './store'
 import Favicon from 'react-favicon';
 
 ReactDOM.render(
-    <ErrorBoundary>
-        <Router>
-            <Provider store={store}>
-                <PersistGate loading={null} persistor={persistor}>
-                    <Favicon url="/favicon.ico" />
-                    <App />
-                </PersistGate>
-            </Provider>
-        </Router>
-    </ErrorBoundary>, document.getElementById("root"));
+        <div>
+          <h1>Server Side Renderig</h1>
+          {/* <Hello name="World" /> */}
+          {/* <HomePage /> */}
+        </div>
+        , document.getElementById("root"));
+    // <ErrorBoundary>
+    //     <Router>
+    //         <Provider store={store}>
+    //             <PersistGate loading={null} persistor={persistor}>
+    //                 <Favicon url="/favicon.ico" />
+    //                 <App />
+    //             </PersistGate>
+    //         </Provider>
+    //     </Router>
+    // </ErrorBoundary>
