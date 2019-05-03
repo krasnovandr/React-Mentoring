@@ -11,5 +11,8 @@ const rootReducer = combineReducers({
 
 export default rootReducer;
 
+export const selectedFilter = state => state.filter
+export const selectedOrder = state => state.order
+
 
 

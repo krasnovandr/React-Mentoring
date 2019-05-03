@@ -10,7 +10,7 @@ module.exports = merge(common, {
     // mode: "development",
     name: 'client',
     target: 'web',
-    devtool: "eval-source-map",
+    devtool: "inline-source-map",
     entry: "./src/index.js",
 
     module: {

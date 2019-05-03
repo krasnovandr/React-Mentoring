@@ -7,6 +7,7 @@ module.exports = merge(common, {
     target: 'node',
     entry: './src/serverRenderer.js',
     externals: [nodeExternals()],
+    devtool: "inline-source-map",
     output: {
         filename: 'js/serverRenderer.js',
         libraryTarget: 'commonjs2',

@@ -2,7 +2,7 @@ import React from "react";
 import { renderToString } from 'react-dom/server';
 import App from "./App";
 import { StaticRouter } from 'react-router-dom';
-import { configureStore } from './store';
+import { configureStore, sagaMiddleware } from './store';
 
 import { SheetsRegistry } from 'jss';
 import JssProvider from 'react-jss/lib/JssProvider';
@@ -11,6 +11,7 @@ import {
     createMuiTheme,
     createGenerateClassName,
 } from '@material-ui/core/styles';
+import { moviesSaga } from "./actions";
 
 function renderHTML(html, preloadedState, css) {
     return `
@@ -49,17 +50,12 @@ export default function serverRenderer() {
         const sheetsManager = new Map();
         // Create a theme instance.
         const theme = createMuiTheme({
-            // palette: {
-            //     primary: green,
-            //     accent: red,
-            //     type: 'light',
-            // },
+            typography: {
+                useNextVariants: true,
+            }
         });
 
-        // Create a new class name generator.
         const generateClassName = createGenerateClassName();
-
-
         const renderRoot = () => (
             <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
                 <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
@@ -71,22 +67,26 @@ export default function serverRenderer() {
                 </MuiThemeProvider>
             </JssProvider>
         );
+        store.runSaga().toPromise().then(() => {
+            const htmlString = renderToString(renderRoot());
 
-        // const htmlString = renderToString(root);
+            // context.url will contain the URL to redirect to if a <Redirect> was used
+            if (context.url) {
+                res.writeHead(302, {
+                    Location: context.url,
+                });
+                res.end();
+                return;
+            }
 
+            const preloadedState = store.getState();
+               console.log("asdasdasdddddddddddd");
+            const css = sheetsRegistry.toString()
+            res.send(renderHTML(htmlString, preloadedState, css));
+        })
+        // Do first render, starts initial actions.
         renderToString(renderRoot());
-        // context.url will contain the URL to redirect to if a <Redirect> was used
-        if (context.url) {
-            res.writeHead(302, {
-                Location: context.url,
-            });
-            res.end();
-            return;
-        }
-
-        const htmlString = renderToString(renderRoot());
-        const preloadedState = store.getState();
-        const css = sheetsRegistry.toString()
-        res.send(renderHTML(htmlString, preloadedState, css));
+        // When the first render is finished, send the END action to redux-saga.
+        store.close();
     };
 }
