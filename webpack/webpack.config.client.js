@@ -7,7 +7,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const isDevMod = process.env.NODE_ENV === 'development';
 
 module.exports = merge(common, {
-    // mode: "development",
     name: 'client',
     target: 'web',
     devtool: "inline-source-map",
@@ -27,7 +26,7 @@ module.exports = merge(common, {
                     }
                 },
             ],
-        }, ],
+        },],
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),

@@ -7,6 +7,7 @@
     "test": "jest --watch",
     "coverage": "jest --coverage",
     "start": "cross-env NODE_ENV=development  node ./server",
+    "build": "cross-env NODE_ENV=production webpack --config ./webpack",
     "cypress:open": "cypress open"
   },
   "repository": {

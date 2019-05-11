@@ -7,37 +7,28 @@ module.exports = {
 
     mode: process.env.NODE_ENV,
 
-    // module: {
-    //     rules: [{
-    //         test: /\.jsx?$/,
-    //         exclude: /node_modules/,
-    //         use: 'babel-loader',
-    //     }, ],
-    // },
     module: {
         rules: [{
-                test: /\.(js|jsx)$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: "babel-loader"
-            },
-            // {
-            //   test: /\.css$/,
-            //   use: ["style-loader", "css-loader"]
-            // },
-            {
-                test: /\.(png|jpg|gif|ico)$/,
-                use: [{
-                    loader: "file-loader",
-                    options: {}
-                }]
-            }
+            test: /\.(js|jsx)$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: "babel-loader"
+        },
+        {
+            test: /\.(png|jpg|gif|ico)$/,
+            use: [{
+                loader: "file-loader",
+                options: {}
+            }]
+        }
         ]
     },
     resolve: { extensions: ["*", ".js", ".jsx"] },
 
     output: {
-        // path: path.resolve(__dirname, "dist/"),
         path: path.resolve('./public'),
         filename: "bundle.js"
-    }
+    },
+    plugins: [
+        isDevMod ? new webpack.NamedModulesPlugin() : new webpack.HashedModuleIdsPlugin(),
+    ],
 };
