@@ -41,10 +41,12 @@ const styles = theme => ({
 });
 
 class SearchToolbox extends React.Component {
+
   constructor(props) {
     super(props);
     this.state = { query: '' };
   }
+
 
   handleTriggerSearch = e => {
     this.props.onSearchTriggered(this.state.query);
