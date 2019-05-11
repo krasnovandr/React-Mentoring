@@ -80,7 +80,6 @@ export default function serverRenderer() {
             }
 
             const preloadedState = store.getState();
-               console.log("asdasdasdddddddddddd");
             const css = sheetsRegistry.toString()
             res.send(renderHTML(htmlString, preloadedState, css));
         })

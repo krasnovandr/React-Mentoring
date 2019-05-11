@@ -2,7 +2,7 @@ import React from 'react';
 import MoviesList from "../components/movies-list";
 import MovieDetails from "../components/movie-details";
 import { ErrorMessage } from "../shared-components/error-message";
-import { loadMovieDetails } from '../actions';
+import { loadMovieDetailsRequest } from '../actions';
 import { connect } from "react-redux";
 
 class MovieDescription extends React.Component {
@@ -10,8 +10,8 @@ class MovieDescription extends React.Component {
         super(props);
     }
 
-    componentDidMount() {
-        this.props.dispatch(loadMovieDetails(this.props.match.params.id));
+    componentWillMount() {
+        this.props.dispatch(loadMovieDetailsRequest(this.props.match.params.id));
     }
 
     componentDidUpdate(prevProps) {

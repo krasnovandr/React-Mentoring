@@ -1,6 +1,7 @@
 import React from "react";
 import 'isomorphic-fetch';
-// import 'babel-polyfill';
+import "es6-promise/auto";
+ import '@babel/polyfill';
 import { hot } from "react-hot-loader";
 import styles from "./App.css";
 import Movies from "./pages/movies";

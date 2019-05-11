@@ -11,24 +11,17 @@ import queryString from 'query-string'
 class Movies extends React.Component {
 
   componentWillMount() {
-    console.log(this.props.location.search)
     const searchQuery = queryString.parse(this.props.location.search);
     this.props.dispatch(loadMoviesRequest(searchQuery.query));
-    // this.props.fetchUserById(this.props.userId);
   }
 
-  // componentDidMount() {
-  //   const searchQuery = queryString.parse(this.props.location.search);
-  //   this.props.dispatch(loadMoviesRequest(searchQuery.query));
-  // }
-
-  // componentDidUpdate(prevProps) {
-  //   if (this.props.order !== prevProps.order
-  //     || this.props.orderBy !== prevProps.orderBy) {
-  //     const searchQuery = queryString.parse(this.props.location.search);
-  //     this.props.dispatch(loadMoviesRequest(searchQuery.query));
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (this.props.order !== prevProps.order
+      || this.props.orderBy !== prevProps.orderBy) {
+      const searchQuery = queryString.parse(this.props.location.search);
+      this.props.dispatch(loadMoviesRequest(searchQuery.query));
+    }
+  }
 
   onSearchTriggered = newQuery => {
     this.props.history.replace({ search: `query=${newQuery}` });

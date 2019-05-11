@@ -30,24 +30,6 @@ export class MovieService {
       .then(response => response.json())
   }
 
-  getSearchMovieUrl(
-    searchBy,
-    search,
-    sortBy,
-    sortOrder,
-    offset = 0,
-    limit = 18
-  ) {
-
-    let params = { searchBy, search, sortBy, sortOrder, offset, limit }
-
-    let queryParams = queryString.stringify(params);
-    let buildedUrl = `${this.baseUrl}?${queryParams}`;
-
-    return buildedUrl;
-  }
-
-
   getMovie(id) {
     let buildedUrl = `${this.baseUrl}/${id}`;
     return fetch(buildedUrl)

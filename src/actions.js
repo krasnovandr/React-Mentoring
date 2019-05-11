@@ -19,21 +19,7 @@ export const LOAD_MOVIEDETAILS_FAILURE = 'LOAD_MOVIEDETAILS_FAILURE'
 import { call, put, all, takeLatest, select, take } from 'redux-saga/effects';
 import { selectedFilter, selectedOrder } from "./reducers/root-reducer";
 
-export function loadMovieDetails(id) {
-    return function (dispatch) {
-        const movieService = new MovieService();
-        return movieService.getMovie(id)
-            .then(movie => {
-                return movieService.searchMovie('genres', movie.genres[0])
-                    .then(similarMovies =>
-                        dispatch(loadMovieDetailsSuccess({
-                            currentMovie: movie,
-                            similarGenreFilms: similarMovies
-                        }))
-                    ).catch(error => dispatch(loadMovieDetailsFailure()))
-            }).catch(error => dispatch(loadMovieDetailsFailure()));
-    }
-}
+
 
 export function loadMovieDetailsSuccess(data) {
     return { type: LOAD_MOVIEDETAILS_SUCCESS, payload: data }
@@ -56,50 +42,57 @@ export function loadMoviesRequest(data) {
     return { type: LOAD_MOVIES_REQUEST, payload: data }
 }
 
+export function loadMovieDetailsRequest(data) {
+    return { type: LOAD_MOVIEDETAILS_REQUEST, payload: data }
+}
+
+
 
 export function* moviesSaga() {
     yield all([
-        watchFetchMovies()
+        watchFetchMovies(),
+        watchFetchMovieDetails()
     ]);
 }
-// export default function* rootSaga() {
-//     yield all([
-//         moviesSaga(),
-//     ])
-//     // code after all-effect
-// }
+
+export function* watchFetchMovies() {
+    yield takeLatest(LOAD_MOVIES_REQUEST, fetchMoviesAsync);
+}
+
+export function* watchFetchMovieDetails() {
+    yield takeLatest(LOAD_MOVIEDETAILS_REQUEST, fetchMovieDetailsAsync);
+}
 
 export function* fetchMoviesAsync(action) {
 
     const movieService = yield new MovieService();
     const filter = yield select(selectedFilter);
     const order = yield select(selectedOrder);
-    const url = yield movieService.getSearchMovieUrl(
-        filter.searchBy,
-        action.payload,
-        order.orderBy,
-        order.order)
-        console.log(url)
-    const response = yield call(fetch,url );
-    const movies = yield response.json();
 
-    yield put(loadMoviesSuccess(movies));
+    try {
+        const movies = yield movieService.searchMovie(
+            filter.searchBy,
+            action.payload,
+            order.orderBy,
+            order.order)
+
+        yield put(loadMoviesSuccess(movies));
+    }
+    catch (error) {
+        yield put(loadMoviesFailure());
+    }
 }
-export function* watchFetchMovies() {
-    yield takeLatest(LOAD_MOVIES_REQUEST, fetchMoviesAsync);
+
+export function* fetchMovieDetailsAsync(action) {
+    const movieService = yield new MovieService();
+    const movie = yield movieService.getMovie(action.payload);
+    try {
+        const similarMovies = yield movieService.searchMovie('genres', movie.genres[0]);
+        yield put(loadMovieDetailsSuccess({ currentMovie: movie, similarGenreFilms: similarMovies }));
+    } catch (error) {
+        yield put(loadMovieDetailsFailure());
+    }
 }
-
-
-// export function loadMoviesRequest(query) {
-//     return function (dispatch, getState) {
-//         const movieService = new MovieService();
-//         const state = getState();
-//         return movieService.searchMovie(state.filter.searchBy, query, state.order.orderBy, state.order.order)
-//             .then(data => dispatch(loadMoviesSuccess(data)))
-//             .catch(error => dispatch(loadMoviesFailure()));
-//     }
-// }
-
 export function orderByChanged(newOrderBy) {
     return { type: ORDER_BY_CHANGED, payload: newOrderBy }
 }
