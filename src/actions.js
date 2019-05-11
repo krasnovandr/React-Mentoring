@@ -7,8 +7,6 @@ export const ORDER_CHANGED = 'ORDER_CHANGED'
 export const ORDER_BY_CHANGED = 'ORDER_BY_CHANGED'
 
 export const SEARCH_BY_CHANGED = 'SEARCH_BY_CHANGED'
-export const QUERY_CHANGED = 'QUERY_CHANGED'
-
 
 export const LOAD_MOVIES_REQUEST = 'LOAD_MOVIES_REQUEST'
 export const LOAD_MOVIES_SUCCESS = 'LOAD_MOVIES_SUCCESS'
@@ -52,11 +50,11 @@ export function loadMoviesFailure() {
 
 
 
-export function loadMoviesRequest() {
+export function loadMoviesRequest(query) {
     return function (dispatch, getState) {
         const movieService = new MovieService();
         const state = getState();
-        return movieService.searchMovie(state.filter.searchBy, state.filter.query, state.order.orderBy, state.order.order)
+        return movieService.searchMovie(state.filter.searchBy, query, state.order.orderBy, state.order.order)
             .then(data => dispatch(loadMoviesSuccess(data)))
             .catch(error => dispatch(loadMoviesFailure()));
     }
@@ -68,10 +66,6 @@ export function orderByChanged(newOrderBy) {
 
 export function orderChanged(newOrder) {
     return { type: ORDER_CHANGED, payload: newOrder }
-}
-
-export function queryChanged(newQuery) {
-    return { type: QUERY_CHANGED, payload: newQuery }
 }
 
 export function searchByChanged(newSearchBy) {

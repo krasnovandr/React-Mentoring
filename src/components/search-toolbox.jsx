@@ -41,12 +41,19 @@ const styles = theme => ({
 });
 
 class SearchToolbox extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = { query: '' };
+  }
+
+
   handleTriggerSearch = e => {
-    this.props.onSearchTriggered();
+    this.props.onSearchTriggered(this.state.query);
   };
 
   handleSearchChange = e => {
-    this.props.onSearchChanged(e.target.value);
+    this.setState({ query: e.target.value });
   };
 
   handleSearchbyCriteria = e => {
@@ -63,7 +70,7 @@ class SearchToolbox extends React.Component {
               id="standard-name"
               label="Search"
               className={classes.textField}
-              value={this.props.searchCriteria.query}
+              value={this.state.query}
               onChange={this.handleSearchChange}
               margin="normal"
               data-testid="search-input"

@@ -3,6 +3,7 @@ const webpack = require("webpack");
 
 module.exports = {
   entry: "./src/index.js",
+  
   module: {
     rules: [
       {
@@ -15,7 +16,7 @@ module.exports = {
         use: ["style-loader", "css-loader"]
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|jpg|gif|ico)$/,
         use: [
           {
             loader: "file-loader",

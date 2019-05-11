@@ -5,7 +5,7 @@ const styles = theme => ({
   root: {
     minHeight: "30px",
     padding: "20px",
-    backgroundImage: `url(${logo})`,
+    backgroundImage: `url(/${logo})`,
     backgroundColor: "transparent"
   }
 });
