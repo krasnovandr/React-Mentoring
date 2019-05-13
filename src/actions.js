@@ -65,16 +65,16 @@ export function* watchFetchMovieDetails() {
 
 export function* fetchMoviesAsync(action) {
 
-    const movieService = yield new MovieService();
+    const movieService = new MovieService();
     const filter = yield select(selectedFilter);
     const order = yield select(selectedOrder);
 
     try {
-        const movies = yield movieService.searchMovie(
+        const movies = yield call(() => movieService.searchMovie(
             filter.searchBy,
             action.payload,
             order.orderBy,
-            order.order)
+            order.order))
 
         yield put(loadMoviesSuccess(movies));
     }
@@ -84,10 +84,12 @@ export function* fetchMoviesAsync(action) {
 }
 
 export function* fetchMovieDetailsAsync(action) {
-    const movieService = yield new MovieService();
-    const movie = yield movieService.getMovie(action.payload);
+    const movieService = new MovieService();
     try {
-        const similarMovies = yield movieService.searchMovie('genres', movie.genres[0]);
+        const movie = yield call(() => movieService.getMovie(action.payload))
+
+        const similarMovies = yield call(() => movieService.searchMovie('genres', movie.genres[0]));
+
         yield put(loadMovieDetailsSuccess({ currentMovie: movie, similarGenreFilms: similarMovies }));
     } catch (error) {
         yield put(loadMovieDetailsFailure());
