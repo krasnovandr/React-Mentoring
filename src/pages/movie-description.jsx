@@ -4,6 +4,7 @@ import MovieDetails from "../components/movie-details";
 import { ErrorMessage } from "../shared-components/error-message";
 import { loadMovieDetailsRequest } from '../actions';
 import { connect } from "react-redux";
+import { getMovieDetails, getLoadedMovies } from '../reducers/root-reducer';
 
 class MovieDescription extends React.Component {
     constructor(props) {
@@ -36,8 +37,8 @@ class MovieDescription extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        movieDetails: state.movies.movieDetails,
-        error: state.movies.errorMovieDetailsLoading
+        movieDetails: getMovieDetails(state),
+        error: getLoadedMovies(state).errorMovieDetailsLoading
     }
 }
 export default connect(mapStateToProps, null)(MovieDescription);

@@ -6,6 +6,7 @@ import { ErrorMessage } from "../shared-components/error-message";
 import { connect } from "react-redux";
 import { loadMoviesRequest, queryChanged, orderByChanged, orderChanged, searchByChanged } from '../actions';
 import queryString from 'query-string'
+import { getCurrentOrder, getCurrentOrderBy, getLoadedMovies,getCurrentFilter } from '../reducers/root-reducer';
 
 
 class Movies extends React.Component {
@@ -54,13 +55,13 @@ class Movies extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    orderBy: state.order.orderBy,
-    order: state.order.order,
-    moviesList: state.movies.moviesList,
+    orderBy: getCurrentOrderBy(state),
+    order: getCurrentOrder(state),
+    moviesList: getLoadedMovies(state).moviesList,
     searchCriteria: {
-      searchBy: state.filter.searchBy
+      searchBy: getCurrentFilter(state).searchBy
     },
-    error: state.movies.errorMoviesLoading
+    error: getLoadedMovies(state).errorMoviesLoading
   }
 }
 
