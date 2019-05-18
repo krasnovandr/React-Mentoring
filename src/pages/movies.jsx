@@ -9,7 +9,8 @@ import queryString from 'query-string'
 
 
 class Movies extends React.Component {
-  componentDidMount() {
+
+  componentWillMount() {
     const searchQuery = queryString.parse(this.props.location.search);
     this.props.dispatch(loadMoviesRequest(searchQuery.query));
   }

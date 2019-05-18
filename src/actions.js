@@ -16,25 +16,16 @@ export const LOAD_MOVIEDETAILS_REQUEST = 'LOAD_MOVIEDETAILS_REQUEST'
 export const LOAD_MOVIEDETAILS_SUCCESS = 'LOAD_MOVIEDETAILS_SUCCESS'
 export const LOAD_MOVIEDETAILS_FAILURE = 'LOAD_MOVIEDETAILS_FAILURE'
 
-export function loadMovieDetails(id) {
-    return function (dispatch) {
-        const movieService = new MovieService();
-        return movieService.getMovie(id)
-            .then(movie => {
-                return movieService.searchMovie('genres', movie.genres[0])
-                    .then(similarMovies =>
-                        dispatch(loadMovieDetailsSuccess({
-                            currentMovie: movie,
-                            similarGenreFilms: similarMovies
-                        }))
-                    ).catch(error => dispatch(loadMovieDetailsFailure()))
-            }).catch(error => dispatch(loadMovieDetailsFailure()));
-    }
-}
+import { call, put, all, takeLatest, select, take } from 'redux-saga/effects';
+import { selectedFilter, selectedOrder } from "./reducers/root-reducer";
+
+
 
 export function loadMovieDetailsSuccess(data) {
     return { type: LOAD_MOVIEDETAILS_SUCCESS, payload: data }
 }
+
+
 export function loadMovieDetailsFailure() {
     return { type: LOAD_MOVIEDETAILS_FAILURE, error: true }
 }
@@ -47,19 +38,63 @@ export function loadMoviesFailure() {
     return { type: LOAD_MOVIES_FAILURE, error: true }
 }
 
+export function loadMoviesRequest(data) {
+    return { type: LOAD_MOVIES_REQUEST, payload: data }
+}
+
+export function loadMovieDetailsRequest(data) {
+    return { type: LOAD_MOVIEDETAILS_REQUEST, payload: data }
+}
 
 
 
-export function loadMoviesRequest(query) {
-    return function (dispatch, getState) {
-        const movieService = new MovieService();
-        const state = getState();
-        return movieService.searchMovie(state.filter.searchBy, query, state.order.orderBy, state.order.order)
-            .then(data => dispatch(loadMoviesSuccess(data)))
-            .catch(error => dispatch(loadMoviesFailure()));
+export function* moviesSaga() {
+    yield all([
+        watchFetchMovies(),
+        watchFetchMovieDetails()
+    ]);
+}
+
+export function* watchFetchMovies() {
+    yield takeLatest(LOAD_MOVIES_REQUEST, fetchMoviesAsync);
+}
+
+export function* watchFetchMovieDetails() {
+    yield takeLatest(LOAD_MOVIEDETAILS_REQUEST, fetchMovieDetailsAsync);
+}
+
+export function* fetchMoviesAsync(action) {
+
+    const movieService = new MovieService();
+    const filter = yield select(selectedFilter);
+    const order = yield select(selectedOrder);
+
+    try {
+        const movies = yield call(() => movieService.searchMovie(
+            filter.searchBy,
+            action.payload,
+            order.orderBy,
+            order.order))
+
+        yield put(loadMoviesSuccess(movies));
+    }
+    catch (error) {
+        yield put(loadMoviesFailure());
     }
 }
 
+export function* fetchMovieDetailsAsync(action) {
+    const movieService = new MovieService();
+    try {
+        const movie = yield call(() => movieService.getMovie(action.payload))
+
+        const similarMovies = yield call(() => movieService.searchMovie('genres', movie.genres[0]));
+
+        yield put(loadMovieDetailsSuccess({ currentMovie: movie, similarGenreFilms: similarMovies }));
+    } catch (error) {
+        yield put(loadMovieDetailsFailure());
+    }
+}
 export function orderByChanged(newOrderBy) {
     return { type: ORDER_BY_CHANGED, payload: newOrderBy }
 }
