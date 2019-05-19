@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "outDir": ".public/",
+    "noImplicitAny": true,
+    "module": "esnext",
+    "target": "es6",
+    "moduleResolution": "node",
+    "jsx": "react",
+    "allowJs": true,
+    "sourceMap": true,
+    "alwaysStrict": false,
+    "strictFunctionTypes": false,
+    "strictPropertyInitialization": false,
+    "typeRoots": [ "./types"]
+    
+  },
+  "exclude": ["node_modules"],
+}
+// {
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "outDir": "public/",
+//     "module": "esnext",
+//     "target": "es5",
+//     "lib": [
+//       "es6",
+//       "dom",
+//       "es2018"
+//     ],
+//     "sourceMap": true,
+//     "allowJs": true,
+//     "jsx": "react",
+//     "moduleResolution": "node",
+//     "rootDir": "./",
+//     "forceConsistentCasingInFileNames": true,
+//     "noImplicitReturns": true,
+//     "noImplicitThis": true,
+//     "noImplicitAny": false, //temporal
+//     "strictNullChecks": false,
+//     "suppressImplicitAnyIndexErrors": true,
+//     "noUnusedLocals": true,
+//     "allowSyntheticDefaultImports": true,
+//     "exclude": [
+//       "node_modules"
+//     ]
+//   }
+  
+// }

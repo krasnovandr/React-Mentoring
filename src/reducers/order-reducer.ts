@@ -1,11 +1,16 @@
-import { ORDER_CHANGED, ORDER_BY_CHANGED } from "../actions";
+import { ActionTypes, ORDER_CHANGED, ORDER_BY_CHANGED } from './../action-types';
 
-const orderInitialState = {
+interface OrderState {
+    orderBy: string;
+    order: string;
+}
+
+const orderInitialState: OrderState = {
     orderBy: 'release_date',
     order: 'asc',
 }
 
-export function order(state = orderInitialState, action) {
+export function order(state = orderInitialState, action: ActionTypes) {
     switch (action.type) {
         case ORDER_CHANGED:
             return {

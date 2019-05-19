@@ -1,10 +1,12 @@
-import React from "react";
+import * as React from "react";
+import { SyntheticEvent } from "react";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
+import { MoviesResponse } from "../models/MoviesResponse";
 
-const styles = theme => ({
+const styles = (theme: any) => createStyles({
   root: {
     flexGrow: 1,
   },
@@ -20,28 +22,42 @@ const styles = theme => ({
   },
 });
 
-class SortingPanel extends React.Component {
+interface SortingPanelProps {
+  onOrderByChanged(query: string): void;
+  onOrderChanged(searchBy: string): void;
+  classes: any;
+  moviesList: MoviesResponse;
+  orderBy: string;
+  order: string;
+}
 
-  handleChangeSortingBy = e => {
-    this.props.onOrderByChanged(e.target.value);
+
+class SortingPanel extends React.Component<SortingPanelProps> {
+  constructor(props: SortingPanelProps) {
+    super(props);
+  }
+  handleChangeSortingBy = (e: SyntheticEvent) => {
+    let target = e.target as HTMLInputElement;
+    this.props.onOrderByChanged(target.value);
   };
 
-  handleChangeSortingOrder = e => {
-    this.props.onOrderChanged(e.target.value);
+  handleChangeSortingOrder = (e: SyntheticEvent) => {
+    let target = e.target as HTMLInputElement;
+    this.props.onOrderChanged(target.value);
   };
   render() {
     const { classes } = this.props;
     const movies = this.props.moviesList;
-    let averageMovieRating = 0;
+    let averageMovieRating: string = '';
     if (movies.data && movies.data.length > 0) {
-      const ratings = movies.data.map(movie => movie.vote_average);
+      const ratings: number[] = movies.data.map(movie => movie.vote_average);
       averageMovieRating = (ratings.reduce((a, b) => a + b) / movies.data.length).toFixed(2);
     }
     return (
       <div>
         <Grid container spacing={16} className={classes.root} direction="row" justify="space-between" >
 
-          {(movies && movies.data && averageMovieRating > 0)
+          {(movies && movies.data && averageMovieRating !== '')
             &&
             <Grid item md={4} className={classes.item}>
               <FormControl >

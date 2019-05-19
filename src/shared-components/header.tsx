@@ -1,7 +1,10 @@
-import React from "react";
+import * as React from "react";
 import { withStyles } from "@material-ui/core/styles";
-import logo from "../../public/background.png";
-const styles = theme => ({
+import * as logo from "../../public/background.png";
+
+
+
+const styles = (theme: any) => ({
   root: {
     minHeight: "30px",
     padding: "20px",
@@ -10,7 +13,7 @@ const styles = theme => ({
   }
 });
 
-function Header(props) {
+function Header(props: any) {
   const { classes } = props;
 
   return <div className={classes.root} />;

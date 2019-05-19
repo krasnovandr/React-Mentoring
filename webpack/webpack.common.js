@@ -8,21 +8,27 @@ module.exports = {
     mode: process.env.NODE_ENV,
 
     module: {
-        rules: [{
-            test: /\.(js|jsx)$/,
-            exclude: /(node_modules|bower_components)/,
-            loader: "babel-loader"
-        },
-        {
-            test: /\.(png|jpg|gif|ico)$/,
-            use: [{
-                loader: "file-loader",
-                options: {}
-            }]
-        }
+        rules: [
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: "babel-loader"
+            },
+            {
+                test: /\.tsx?$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.(png|jpg|gif|ico)$/,
+                use: [{
+                    loader: "file-loader",
+                    options: {}
+                }]
+            }
         ]
     },
-    resolve: { extensions: ["*", ".js", ".jsx"] },
+    resolve: { extensions: ["*", ".js", ".jsx", '.tsx', '.ts',] },
 
     output: {
         path: path.resolve('./public'),

@@ -17,7 +17,7 @@ class MovieDescription extends React.Component {
 
     componentDidUpdate(prevProps) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
-            this.props.dispatch(loadMovieDetails(this.props.match.params.id));
+            this.props.dispatch(loadMovieDetailsRequest(this.props.match.params.id));
         }
     }
 

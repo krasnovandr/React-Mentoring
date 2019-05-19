@@ -1,10 +1,14 @@
-import { QUERY_CHANGED, SEARCH_BY_CHANGED } from "../actions";
+import { SEARCH_BY_CHANGED, ActionTypes } from './../action-types';
 
-const filterInitialState = {
+interface FilterState {
+    searchBy: string
+}
+
+const filterInitialState: FilterState = {
     searchBy: "title",
 }
 
-export function filter(state = filterInitialState, action) {
+export function filter(state = filterInitialState, action: ActionTypes) {
     switch (action.type) {
         case SEARCH_BY_CHANGED:
             return {

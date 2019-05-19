@@ -1,17 +1,36 @@
-import { LOAD_MOVIES_SUCCESS, LOAD_MOVIES_FAILURE, LOAD_MOVIEDETAILS_SUCCESS, LOAD_MOVIEDETAILS_FAILURE } from "../actions";
+import {
+    LOAD_MOVIES_SUCCESS,
+    LOAD_MOVIES_FAILURE,
+    LOAD_MOVIEDETAILS_SUCCESS,
+    LOAD_MOVIEDETAILS_FAILURE,
+    ActionTypes
+} from "../action-types";
+import Movie from "../models/Movie";
 
-const moviesInitialState = {
+interface MovieDetails {
+    currentMovie: any;
+    similarGenreFilms: Movie[];
+}
+export interface MoviesState {
+    moviesList: Movie[];
+    errorMoviesLoading: boolean;
+    errorMovieDetailsLoading: boolean;
+    movieDetails: MovieDetails
+}
+
+
+const moviesInitialState: MoviesState = {
     moviesList: [],
     errorMoviesLoading: false,
     errorMovieDetailsLoading: false,
     movieDetails: {
-        currentMovie: {},
+        currentMovie: { },
         similarGenreFilms: []
     }
 }
 
 
-export function movies(state = moviesInitialState, action) {
+export function movies(state = moviesInitialState, action: ActionTypes) {
     switch (action.type) {
         case LOAD_MOVIEDETAILS_SUCCESS:
             return {

@@ -1,21 +1,30 @@
-import React from "react";
+import * as React from "react";
 import MovieListDetails from "./movie-list-details";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import { grey } from "@material-ui/core/colors";
+import { MoviesResponse } from './../models/MoviesResponse';
 
-const styles = theme => ({
+const coloredBackground = grey.toString();
+
+const styles = () => createStyles({
   root: {
     flexGrow: 1,
     marginTop: 20,
-    backgroundColor: grey
+    backgroundColor: coloredBackground
   },
   centered: {
     textAlign: 'center',
   }
 });
 
-function MoviesList(props) {
+
+interface MovieListProps {
+  items: MoviesResponse;
+  classes: any;
+}
+
+const MoviesList: React.FC<MovieListProps> = (props) => {
   const movies = props.items;
 
   const { classes } = props;

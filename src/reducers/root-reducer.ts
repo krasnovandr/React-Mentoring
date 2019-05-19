@@ -12,9 +12,9 @@ const rootReducer = combineReducers({
 
 export default rootReducer;
 
-export const selectedFilter = state => state.filter
-export const selectedOrder = state => state.order
-export const selectedMovies = state => state.movies
+export const selectedFilter = (state: any) => state.filter
+export const selectedOrder = (state: any) => state.order
+export const selectedMovies = (state: any) => state.movies
 
 export const getCurrentFilter = createSelector(
     [selectedFilter],

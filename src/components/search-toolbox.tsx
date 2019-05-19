@@ -1,14 +1,18 @@
-import React from "react";
+import * as React from "react";
+import * as ReactDOM from "react-dom";
 import Button from "@material-ui/core/Button";
 import Radio from "@material-ui/core/Radio";
 import green from "@material-ui/core/colors/green";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
-const styles = theme => ({
+import { SyntheticEvent } from "react";
+
+
+const styles = (theme: any) => createStyles({
   root: {
     minHeight: "30px",
     margin: "20px",
@@ -40,22 +44,38 @@ const styles = theme => ({
   }
 });
 
-class SearchToolbox extends React.Component {
-  constructor(props) {
+interface SearchToolboxProps {
+  onSearchTriggered(query: string): void;
+  onSearchByChanged(searchBy: string): void;
+  classes: any;
+  searchCriteria: SearchCriteria
+}
+
+interface SearchToolboxState {
+  query: string;
+}
+interface SearchCriteria {
+  searchBy: string;
+}
+
+class SearchToolbox extends React.Component<SearchToolboxProps, SearchToolboxState> {
+  constructor(props: SearchToolboxProps) {
     super(props);
     this.state = { query: '' };
   }
 
-  handleTriggerSearch = e => {
+  handleTriggerSearch = (e: any) => {
     this.props.onSearchTriggered(this.state.query);
   };
 
-  handleSearchChange = e => {
-    this.setState({ query: e.target.value });
+  handleSearchChange = (e: SyntheticEvent) => {
+    let target = e.target as HTMLInputElement;
+    this.setState({ query: target.value });
   };
 
-  handleSearchbyCriteria = e => {
-    this.props.onSearchByChanged(e.target.value);
+  handleSearchbyCriteria = (e: SyntheticEvent) => {
+    let target = e.target as HTMLInputElement;
+    this.props.onSearchByChanged(target.value);
   };
 
   render() {

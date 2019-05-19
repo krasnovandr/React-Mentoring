@@ -1,15 +1,15 @@
 
-import React from 'react';
+import * as React from 'react';
 import { ErrorMessage } from './error-message';
 
-export class ErrorBoundary extends React.Component {
+export class ErrorBoundary extends React.Component<{}> {
     state = { hasError: false };
 
-    static getDerivedStateFromError(error) {
+    static getDerivedStateFromError() {
         return { hasError: true };
     }
 
-    componentDidCatch(error, info) {
+    componentDidCatch(error: Error, info: React.ErrorInfo) {
         console.log(error);
     }
 

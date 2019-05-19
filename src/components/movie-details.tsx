@@ -1,12 +1,13 @@
-import React from "react";
+import * as React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
 import ButtonBase from '@material-ui/core/ButtonBase';
+import Movie from "../models/Movie";
 
-const styles = theme => ({
+const styles = (theme: any) => ({
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary,
@@ -23,7 +24,11 @@ const styles = theme => ({
   },
 });
 
-function MovieDetails(props) {
+interface MovieDetailsProps {
+  movie: Movie;
+  classes: any;
+}
+const MovieDetails: React.FC<MovieDetailsProps> = (props) => {
   const movie = props.movie;
   const { classes } = props;
   return (
@@ -42,7 +47,7 @@ function MovieDetails(props) {
               </Typography>
               <Grid item container>
                 <Grid item xs>
-                  <Typography color="textSecondary" color="primary" gutterBottom>  {movie.runtime} min</Typography>
+                  <Typography color="textSecondary" gutterBottom>  {movie.runtime} min</Typography>
                 </Grid>
                 <Grid item xs>
                   <Typography align="center" color="primary" gutterBottom>  {new Date(movie.release_date).getFullYear()}</Typography>
