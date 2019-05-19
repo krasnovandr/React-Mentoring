@@ -10,7 +10,7 @@ module.exports = merge(common, {
     name: 'client',
     target: 'web',
     devtool: "inline-source-map",
-    entry: "./src/index.js",
+    entry: "./src/index.tsx",
 
     module: {
         rules: [{

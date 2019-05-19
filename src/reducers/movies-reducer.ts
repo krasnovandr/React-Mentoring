@@ -6,16 +6,17 @@ import {
     ActionTypes
 } from "../action-types";
 import Movie from "../models/Movie";
+import { MoviesResponse } from './../models/MoviesResponse';
 
-interface MovieDetails {
+export interface MovieDetailsType {
     currentMovie: any;
-    similarGenreFilms: Movie[];
+    similarGenreFilms: MoviesResponse;
 }
 export interface MoviesState {
     moviesList: Movie[];
     errorMoviesLoading: boolean;
     errorMovieDetailsLoading: boolean;
-    movieDetails: MovieDetails
+    movieDetails: MovieDetailsType
 }
 
 
@@ -24,8 +25,13 @@ const moviesInitialState: MoviesState = {
     errorMoviesLoading: false,
     errorMovieDetailsLoading: false,
     movieDetails: {
-        currentMovie: { },
-        similarGenreFilms: []
+        currentMovie: {},
+        similarGenreFilms: {
+            data: [],
+            total: 0,
+            offset: 0,
+            limit: 0,
+        }
     }
 }
 

@@ -1,4 +1,6 @@
 import * as queryString from "query-string"
+import { MoviesResponse } from './models/MoviesResponse';
+import Movie from './models/Movie'
 export class MovieService {
   baseUrl: string;
 
@@ -20,7 +22,7 @@ export class MovieService {
     sortOrder: string,
     offset = 0,
     limit = 18
-  ): Promise<any> {
+  ): Promise<MoviesResponse> {
 
     let params = { searchBy, search, sortBy, sortOrder, offset, limit }
 
@@ -32,7 +34,7 @@ export class MovieService {
       .then(response => response.json())
   }
 
-  getMovie(id: number): Promise<Response> {
+  getMovie(id: number): Promise<Movie> {
     let buildedUrl = `${this.baseUrl}/${id}`;
     return fetch(buildedUrl)
       .then(response => this.handleErrors(response))

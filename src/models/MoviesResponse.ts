@@ -1,9 +1,8 @@
-import  Movie  from "./Movie";
+import Movie from "./Movie";
 
 export interface MoviesResponse {
-    data?: Movie[];
-    total: number;
-    offset: number;
-    limit: number;
-  }
-  
+  data?: Movie[];
+  total: number;
+  offset: number;
+  limit: number;
+}

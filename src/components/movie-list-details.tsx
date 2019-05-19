@@ -1,10 +1,12 @@
-import React from "react";
+import * as React from "react";
 import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles, createStyles } from "@material-ui/core/styles";
 import { Link } from 'react-router-dom';
-const styles = theme => ({
+import Movie from './../models/Movie';
+
+const styles = (theme: any) => createStyles({
   paper: {
     padding: theme.spacing.unit * 2,
     textAlign: "center",
@@ -18,7 +20,13 @@ const styles = theme => ({
   }
 });
 
-function MovieListDetails(props) {
+interface MovieListDetailsProps {
+  movie: Movie;
+  classes: any;
+}
+
+
+const MovieListDetails: React.FC<MovieListDetailsProps> = (props) => {
   const movie = props.movie;
   const { classes } = props;
   return (

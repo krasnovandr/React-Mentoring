@@ -19,7 +19,7 @@ export const LOAD_MOVIEDETAILS_FAILURE = 'LOAD_MOVIEDETAILS_FAILURE'
 
 export interface MovieDetailsSuccessPayload {
     currentMovie: Movie;
-    similarGenreFilms: Movie[]
+    similarGenreFilms: MoviesResponse
 }
 export interface MovieDetailsSuccessAction {
     payload: MovieDetailsSuccessPayload;
@@ -43,7 +43,7 @@ export interface MoviesFailureAction {
 }
 
 export interface MoviesRequesAction {
-    payload: string;
+    payload: string | string[];
     type: typeof LOAD_MOVIES_REQUEST
 }
 

@@ -17,8 +17,8 @@ import { Provider } from 'react-redux'
 
 interface AppProps {
   Router: any;
-  location: any;
-  context: any;
+  location?: any;
+  context?: any;
   store: any;
 }
 // { Router, location, context, store }

@@ -44,7 +44,7 @@ export function loadMoviesFailure(): ActionTypes {
     return { type: LOAD_MOVIES_FAILURE, error: true }
 }
 
-export function loadMoviesRequest(data: string): ActionTypes {
+export function loadMoviesRequest(data: string | string[]): ActionTypes {
     return { type: LOAD_MOVIES_REQUEST, payload: data }
 }
 
@@ -92,7 +92,7 @@ export function* fetchMoviesAsync(action: any) {
     const order = yield select(selectedOrder);
 
     try {
-        const movies = yield call(() => movieService.searchMovie(
+        const movies: MoviesResponse = yield call(() => movieService.searchMovie(
             filter.searchBy,
             action.payload,
             order.orderBy,

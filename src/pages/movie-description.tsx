@@ -1,13 +1,36 @@
-import React from 'react';
+import * as React from 'react';
 import MoviesList from "../components/movies-list";
-import MovieDetails from "../components/movie-details";
 import { ErrorMessage } from "../shared-components/error-message";
 import { loadMovieDetailsRequest } from '../actions';
 import { connect } from "react-redux";
-import { getMovieDetails, getLoadedMovies } from '../reducers/root-reducer';
+import { getMovieDetails, getLoadedMovies, AppState } from '../reducers/root-reducer';
+import { match, RouteComponentProps } from 'react-router';
+import { Location } from 'history';
+import { MovieDetailsType } from '../reducers/movies-reducer';
+import MovieDetails from '../components/movie-details';
 
-class MovieDescription extends React.Component {
-    constructor(props) {
+
+interface MatchParams {
+    name: string
+}
+
+
+interface MovieDescriptionProps {
+    dispatch(func: any): any;
+    // location: Location;
+    // order: string;
+    // orderBy: string;
+    // history: History;
+    error: boolean;
+    movieDetails: MovieDetailsType
+    match: any
+    // moviesList: MoviesResponse;
+    // searchCriteria:SearchCriteria
+
+}
+
+class MovieDescription extends React.Component<MovieDescriptionProps> {
+    constructor(props: MovieDescriptionProps) {
         super(props);
     }
 
@@ -15,7 +38,7 @@ class MovieDescription extends React.Component {
         this.props.dispatch(loadMovieDetailsRequest(this.props.match.params.id));
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: MovieDescriptionProps) {
         if (this.props.match.params.id !== prevProps.match.params.id) {
             this.props.dispatch(loadMovieDetailsRequest(this.props.match.params.id));
         }
@@ -35,7 +58,7 @@ class MovieDescription extends React.Component {
     }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: AppState) {
     return {
         movieDetails: getMovieDetails(state),
         error: getLoadedMovies(state).errorMovieDetailsLoading

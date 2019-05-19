@@ -10,6 +10,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormLabel from "@material-ui/core/FormLabel";
 import { SyntheticEvent } from "react";
+import { SearchCriteria } from "../pages/movies";
 
 
 const styles = (theme: any) => createStyles({
@@ -54,9 +55,7 @@ interface SearchToolboxProps {
 interface SearchToolboxState {
   query: string;
 }
-interface SearchCriteria {
-  searchBy: string;
-}
+
 
 class SearchToolbox extends React.Component<SearchToolboxProps, SearchToolboxState> {
   constructor(props: SearchToolboxProps) {

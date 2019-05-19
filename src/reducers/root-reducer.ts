@@ -12,6 +12,8 @@ const rootReducer = combineReducers({
 
 export default rootReducer;
 
+export type AppState = ReturnType<typeof rootReducer>
+
 export const selectedFilter = (state: any) => state.filter
 export const selectedOrder = (state: any) => state.order
 export const selectedMovies = (state: any) => state.movies
